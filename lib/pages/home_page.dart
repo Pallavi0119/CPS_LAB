@@ -274,7 +274,7 @@ LayoutBuilder(
           child: Image.asset(
             imgPath,
             fit: BoxFit.contain,
-            height: isLargeScreen ? 500 : 450,
+            height: isLargeScreen ? 500 : 400,
             width: double.infinity,
           ),
         ),
@@ -316,7 +316,7 @@ const SizedBox(height: 40),
 Text(
   "CPS Lab Highlights",
   style: TextStyle(
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: FontWeight.bold,
     color: isDarkTheme ? Colors.yellow.shade300 : Colors.deepPurple,
   ),
@@ -328,7 +328,7 @@ LayoutBuilder(
   builder: (context, constraints) {
     double carouselHeight = 430;
     if (constraints.maxWidth < 600) {
-      carouselHeight = 300; 
+      carouselHeight = 280; 
     } else if (constraints.maxWidth < 900) {
       carouselHeight = 380; 
     }

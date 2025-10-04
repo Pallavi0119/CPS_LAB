@@ -72458,7 +72458,7 @@ i=A.di(l,A.ci(A.b([q,B.cY,p,B.e0,A.Iu(l,l,l,B.bP,l,l,!0,l,A.hG(A.b([B.Mu,n,B.Mt,
 s=A.ch("Our Objectives",A.bu(l,l,k?B.ah:B.W,l,l,l,l,l,l,l,l,26,l,l,B.R,l,l,!0,l,l,l,l,l,l,l,l),l)
 r=A.n6(new A.Yt(this,k))
 q=A.n6(new A.Yu())
-return A.IC(l,j,A.yp(A.ci(A.b([i,B.wS,s,B.e0,r,B.wS,q,B.wR,A.ch("CPS Lab Highlights",A.bu(l,l,k?B.ah:B.W,l,l,l,l,l,l,l,l,24,l,l,B.R,l,l,!0,l,l,l,l,l,l,l,l),l),B.e0,A.n6(new A.Yv(this))],m),B.E,B.x,B.z),B.hT),l,!1)}}
+return A.IC(l,j,A.yp(A.ci(A.b([i,B.wS,s,B.e0,r,B.wS,q,B.wR,A.ch("CPS Lab Highlights",A.bu(l,l,k?B.ah:B.W,l,l,l,l,l,l,l,l,22,l,l,B.R,l,l,!0,l,l,l,l,l,l,l,l),l),B.e0,A.n6(new A.Yv(this))],m),B.E,B.x,B.z),B.hT),l,!1)}}
 A.Yt.prototype={
 $2(a,b){var s=b.b,r=s>600?2:1
 return A.aka(new A.qV(s>900?3:r,20,20,1.8,null),new A.Ys(this.a,this.b),3,B.fh,!0)},
@@ -72487,7 +72487,7 @@ return A.ci(p,B.E,B.x,B.z)}},
 $S:494}
 A.Yw.prototype={
 $1(a){var s=null,r=A.cN(16)
-return A.kI(s,A.En(r,A.jb(a,s,B.bI,this.b?500:450,1/0)),B.a7,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.Yo(this.a,a),s,s,s,s,s,s,!1,B.bs)},
+return A.kI(s,A.En(r,A.jb(a,s,B.bI,this.b?500:400,1/0)),B.a7,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.Yo(this.a,a),s,s,s,s,s,s,!1,B.bs)},
 $S:495}
 A.Yo.prototype={
 $0(){A.at_(null,new A.Yn(this.b),this.a,t.z)},
@@ -72503,7 +72503,7 @@ $1(a){return new A.bl(B.BT,this.a.$1(a),null)},
 $S:498}
 A.Yv.prototype={
 $2(a,b){var s,r,q,p,o=b.b
-if(o<600)s=300
+if(o<600)s=280
 else s=o<900?380:430
 o=A.bi(a,null,t.w).w.a.a<600?1:0.6
 r=t.k5

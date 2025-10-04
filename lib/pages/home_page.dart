@@ -66,25 +66,18 @@ class HomePage extends StatelessWidget {
   ),
 ),
 const SizedBox(height: 20),
-
 LayoutBuilder(
-  
   builder: (context, constraints) {
-    double carouselHeight = 430;
-    if (constraints.maxWidth < 600) {
-      carouselHeight = 230; 
-    } else if (constraints.maxWidth < 900) {
-      carouselHeight = 350; 
-    }
-final screenWidth = MediaQuery.of(context).size.width;
-    return SizedBox(
-      width: double.infinity,
-      height: carouselHeight,
-      
+    final screenWidth = MediaQuery.of(context).size.width;
+
+   
+    double aspectRatio =screenWidth < 600 ?(3/2): (5 / 2); 
+
+    return AspectRatio(
+      aspectRatio: aspectRatio,
       child: CarouselSlider(
         options: CarouselOptions(
-          height: carouselHeight,
-       viewportFraction: screenWidth < 600 ? 1.0 : 0.6,
+          viewportFraction: screenWidth < 600 ? 0.9 : 0.6,
           autoPlay: true,
           autoPlayInterval: const Duration(seconds: 3),
           enlargeCenterPage: true,
@@ -99,7 +92,7 @@ final screenWidth = MediaQuery.of(context).size.width;
                   borderRadius: BorderRadius.circular(16),
                   child: Image.asset(
                     imgPath,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain, 
                     width: double.infinity,
                   ),
                 ),
@@ -112,6 +105,7 @@ final screenWidth = MediaQuery.of(context).size.width;
   },
 ),
 const SizedBox(height: 50),
+
             /// -------- Intro Paragraph with card + gradient --------
        Container(
   padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),

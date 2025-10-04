@@ -108,12 +108,12 @@ class ProductsPage extends StatelessWidget {
       "desc": "Electromagnetically operated switch for automation and control",
  
     }, {
-      "image": "assets/images/ble dev kit.jpg",
+      "image": "assets/images/ble_dev_kit.jpg",
       "title": "Bluetooth Low Energy Development Kit",
       "desc": "Multi-protocol wireless prototyping kit.",
  
     }, {
-      "image": "assets/images/ble node.png",
+      "image": "assets/images/bleNode.png",
       "title": "BLE Node",
       "desc":"Advanced Bluetooth LE solution for IoT and wearable applications",
 
@@ -128,7 +128,7 @@ class ProductsPage extends StatelessWidget {
       "desc": "Compact 4-in-1 environmental sensor.",
   
     }, {
-      "image": "assets/images/Actitvity monitoring sensor.png",
+      "image": "assets/images/Actitvity.png",
       "title": "Activity/Vibration Monitor Kit",
       "desc": "Real-time motion and environmental data tracker for STEM and IoT projects",
  
@@ -138,7 +138,7 @@ class ProductsPage extends StatelessWidget {
       "desc":  "16-bit resolution sensor for consumer and industrial applications",
   
     }, {
-      "image": "assets/images/groove shield.png",
+      "image": "assets/images/groove.png",
       "title": "Groove Shield",
       "desc": "Easy integration of sensors, actuators, and inputs for rapid IoT prototyping",
   
@@ -163,7 +163,7 @@ class ProductsPage extends StatelessWidget {
       "desc": "Detects magnetic fields with digital and analog outputs",
   
     }, {
-      "image": "assets/images/ir sensor.png",
+      "image": "assets/images/ir_sensor.png",
       "title": "InfraRed Sensor",
       "desc": "Detects infrared radiation emitted by objects, supporting motion detection, temperature measurement, and control systems",
  

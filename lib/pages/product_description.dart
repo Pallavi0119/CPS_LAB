@@ -316,7 +316,7 @@ final List<Map<String, dynamic>> allSensors = [
     "User I/O: 4 LEDs and 4 push-buttons",
     "Operating Conditions: -40°C to +85°C (industrial grade)"
   ],
-      "imagePath": "assets/images/ble dev kit.jpg",
+      "imagePath": "assets/images/ble_dev_kit.jpg",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "BLEKIT",
 },
@@ -353,7 +353,7 @@ final List<Map<String, dynamic>> allSensors = [
 "Configurable memory variants: up to 512 kB Flash and 64 kB RAM",
 "Operating voltage range: 1.7 V - 3.6 V"
 ],
-      "imagePath": "assets/images/ble node.png",
+      "imagePath": "assets/images/bleNode.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "BLENODE",
 },
@@ -468,7 +468,7 @@ final List<Map<String, dynamic>> allSensors = [
     "Form Factor: Compact, battery-powered design for portable use",
     "Use Case: Suitable for STEM education, wearable projects, and IoT applications"
   ],
-      "imagePath": "assets/images/Actitvity monitoring sensor.png",
+      "imagePath": "assets/images/Actitvity.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "ACTIVITY",
 },
@@ -542,7 +542,7 @@ final List<Map<String, dynamic>> allSensors = [
     "Design: Compact and scalable for multiple module connections",
     "Use Case: Ideal for rapid IoT prototyping and educational projects"
   ],
-      "imagePath": "assets/images/groove shield.png",
+      "imagePath": "assets/images/groove.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "GROOVE",
 },
@@ -723,7 +723,7 @@ final List<Map<String, dynamic>> allSensors = [
     "Output Types: Analog, Digital, PWM",
     "Operating Temperature: -40 °C to +85 °C"
   ],
-      "imagePath": "assets/images/ir sensor.png",
+      "imagePath": "assets/images/ir_sensor.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "IR",
 },

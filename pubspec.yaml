@@ -79,16 +79,16 @@ flutter:
     - assets/images/memory.png
     - assets/images/buzzer.png
     - assets/images/relay.png
-    - assets/images/ble dev kit.jpg
-    - assets/images/ble node.png
+    - assets/images/ble_dev_kit.jpg
+    - assets/images/bleNode.png
     - assets/images/bme680.png
-    - assets/images/Actitvity monitoring sensor.png
+    - assets/images/Actitvity.png
     - assets/images/Lux.png
-    - assets/images/groove shield.png
+    - assets/images/groove.png
     - assets/images/tlv.png
     - assets/images/ltr390.png
     - assets/images/halleffect.png
-    - assets/images/ir sensor.png
+    - assets/images/ir_sensor.png
     - assets/images/vl5.png
     - assets/images/programmer.png
     - assets/images/1.png

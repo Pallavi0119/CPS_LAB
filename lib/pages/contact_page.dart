@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ContactPage extends StatelessWidget {
   const ContactPage({super.key});
 
-  final LatLng iitRopar = const LatLng(31.0206, 76.5363);
+  final LatLng iitRopar = const LatLng(30.9694, 76.4737);
 
   @override
   Widget build(BuildContext context) {
@@ -98,16 +98,45 @@ class ContactPage extends StatelessWidget {
                     ),
                     MarkerLayer(
                       markers: [
-                        Marker(
-                          point: iitRopar,
-                          width: 50,
-                          height: 50,
-                          child: const Icon(
-                            Icons.location_on,
-                            color: Colors.red,
-                            size: 38,
-                          ),
-                        ),
+                       Marker(
+  point: iitRopar,
+  width: 100, // thoda zyada rakha taki text fit ho jaye
+  height: 80,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      const Icon(
+        Icons.location_on,
+        color: Colors.red,
+        size: 38,
+      ),
+      const SizedBox(height: 4),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 3,
+              offset: const Offset(1, 2),
+            )
+          ],
+        ),
+        child: const Text(
+          "iHub AWaDH",
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+      ),
+    ],
+  ),
+),
+
                       ],
                     ),
                     // Zoom buttons

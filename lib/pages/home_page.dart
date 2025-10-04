@@ -234,7 +234,6 @@ const SizedBox(height: 50),
             ),
             const SizedBox(height: 30),
 
-            // Deployment Map Section
 LayoutBuilder(
   builder: (context, constraints) {
     bool isLargeScreen = constraints.maxWidth >= 800;
@@ -258,7 +257,7 @@ LayoutBuilder(
                   minScale: 0.5,
                   maxScale: 4,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
                       imgPath,
                       fit: BoxFit.contain,
@@ -269,11 +268,15 @@ LayoutBuilder(
             },
           );
         },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+        child: Card(
+          elevation: 8,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16), // same circular border
+          ),
+          clipBehavior: Clip.antiAlias, // ensures child image respects border radius
           child: Image.asset(
             imgPath,
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
             height: isLargeScreen ? 500 : 400,
             width: double.infinity,
           ),
@@ -307,6 +310,7 @@ LayoutBuilder(
     }
   },
 ),
+
 
 
 const SizedBox(height: 30),

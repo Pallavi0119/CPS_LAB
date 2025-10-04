@@ -187,74 +187,82 @@ onTap: () {
   bool showDescription = false; // <-- move it here
 
   showDialog(
-    context: context,
-    barrierColor: Colors.black.withOpacity(0.3),
-    builder: (_) => StatefulBuilder(
-      builder: (context, setState) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          child: Dialog(
-            backgroundColor: Colors.transparent,
-            insetPadding: const EdgeInsets.all(10),
-           child: Container(
-  width: MediaQuery.of(context).size.width * 0.9, // almost full width
-  constraints: BoxConstraints(
-    maxWidth: 800, // increase max width
-    maxHeight: MediaQuery.of(context).size.height * 0.95, // increase max height
-  
+  context: context,
+  barrierColor: Colors.black.withOpacity(0.3),
+  builder: (_) => StatefulBuilder(
+    builder: (context, setState) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+        child: Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.all(10),
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            constraints: BoxConstraints(
+              maxWidth: 800,
+              maxHeight: MediaQuery.of(context).size.height * 0.95,
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: isDarkTheme
+                    ? [
+                        Colors.grey.shade900.withOpacity(0.9),
+                        Colors.grey.shade800.withOpacity(0.6)
+                      ]
+                    : [
+                        Colors.white.withOpacity(0.95),
+                        Colors.deepPurple.shade50.withOpacity(0.7)
+                      ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: isDarkTheme
-                      ? [
-                          Colors.grey.shade900.withOpacity(0.9),
-                          Colors.grey.shade800.withOpacity(0.6)
-                        ]
-                      : [
-                          Colors.white.withOpacity(0.95),
-                          Colors.deepPurple.shade50.withOpacity(0.7)
-                        ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: isDarkTheme
-                        ? Colors.yellow.shade200.withOpacity(0.15)
-                        : Colors.deepPurple.withOpacity(0.2),
-                    blurRadius: 20,
-                    spreadRadius: 2,
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Image section
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeInOut,
-                    height: showDescription
-                        ? MediaQuery.of(context).size.height * 0.4
-                        : MediaQuery.of(context).size.height * 0.6,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: InteractiveViewer(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Image with pinch-to-zoom
+                Expanded(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      InteractiveViewer(
                         panEnabled: true,
                         minScale: 1.0,
                         maxScale: 4.0,
-                        child: Image.asset(
-                          deployment["image"]!,
-                          fit: BoxFit.contain,
-                          width: double.infinity,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.asset(
+                            deployment["image"]!,
+                            fit: BoxFit.contain,
+                            width: double.infinity,
+                          ),
                         ),
                       ),
-                    ),
+                      // Pinch to Zoom indicator
+                      Container(
+                        margin: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.black45,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(Icons.zoom_in, color: Colors.white, size: 16),
+                            SizedBox(width: 4),
+                            Text(
+                              "Pinch to Zoom",
+                              style: TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-
-                  const SizedBox(height: 8),
+                ),                  const SizedBox(height: 8),
 
                   // Down / Up arrow
                   IconButton(

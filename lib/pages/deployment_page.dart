@@ -124,12 +124,15 @@ class DeploymentPage extends StatelessWidget {
    
   ];
 
+
+ 
   @override
   Widget build(BuildContext context) {
     final bool isDarkTheme = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDarkTheme ? Colors.grey.shade900 : const Color(0xFFF7F8F8),
+      backgroundColor:
+          isDarkTheme ? Colors.grey.shade900 : const Color(0xFFF7F8F8),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -140,30 +143,30 @@ class DeploymentPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: isDarkTheme ? Colors.yellow.shade300 : Colors.deepPurple,
+                  color:
+                      isDarkTheme ? Colors.yellow.shade300 : Colors.deepPurple,
                 ),
               ),
             ),
             const SizedBox(height: 12),
             LayoutBuilder(
               builder: (context, constraints) {
-                int crossAxisCount = 1;
-                if (constraints.maxWidth > 1000) crossAxisCount = 3;
-                else if (constraints.maxWidth > 700) crossAxisCount = 2;
+                double maxCrossAxisExtent = 300; // 👈 chhota card
 
                 return GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: deployments.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: maxCrossAxisExtent,
                     mainAxisSpacing: 16,
                     crossAxisSpacing: 16,
-                    childAspectRatio: 1.4,
+                    childAspectRatio: 0.9, 
                   ),
                   itemBuilder: (context, index) {
                     final deployment = deployments[index];
-                    return _buildDeploymentCard(context, deployment, isDarkTheme);
+                    return _buildDeploymentCard(
+                        context, deployment, isDarkTheme);
                   },
                 );
               },
@@ -174,209 +177,219 @@ class DeploymentPage extends StatelessWidget {
     );
   }
 
+  Widget _buildDeploymentCard(
+      BuildContext context, Map<String, String> deployment, bool isDarkTheme) {
+    bool isHovered = false;
 
-Widget _buildDeploymentCard(BuildContext context, Map<String, String> deployment, bool isDarkTheme) {
-  bool isHovered = false;
+    return StatefulBuilder(
+       builder: (context, setState) => MouseRegion(
+        onEnter: (_) => setState(() => isHovered = true),
+        onExit: (_) => setState(() => isHovered = false),
+        child: GestureDetector(
+          onTap: () {
+            bool showDescription = false;
 
-  return StatefulBuilder(
-    builder: (context, setState) => MouseRegion(
-      onEnter: (_) => setState(() => isHovered = true),
-      onExit: (_) => setState(() => isHovered = false),
-      child: GestureDetector(
-onTap: () {
-  bool showDescription = false; // <-- move it here
-
-  showDialog(
-    context: context,
-    barrierColor: Colors.black.withOpacity(0.3),
-    builder: (_) => StatefulBuilder(
-      builder: (context, setState) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          child: Dialog(
-            backgroundColor: Colors.transparent,
-            insetPadding: const EdgeInsets.all(10),
-           child: Container(
-  width: MediaQuery.of(context).size.width * 0.9, // almost full width
-  constraints: BoxConstraints(
-    maxWidth: 800, // increase max width
-    maxHeight: MediaQuery.of(context).size.height * 0.95, // increase max height
-  
-              ),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: isDarkTheme
-                      ? [
-                          Colors.grey.shade900.withOpacity(0.9),
-                          Colors.grey.shade800.withOpacity(0.6)
-                        ]
-                      : [
-                          Colors.white.withOpacity(0.95),
-                          Colors.deepPurple.shade50.withOpacity(0.7)
-                        ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: isDarkTheme
-                        ? Colors.yellow.shade200.withOpacity(0.15)
-                        : Colors.deepPurple.withOpacity(0.2),
-                    blurRadius: 20,
-                    spreadRadius: 2,
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Image section
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeInOut,
-                    height: showDescription
-                        ? MediaQuery.of(context).size.height * 0.4
-                        : MediaQuery.of(context).size.height * 0.6,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: InteractiveViewer(
-                        panEnabled: true,
-                        minScale: 1.0,
-                        maxScale: 4.0,
-                        child: Image.asset(
-                          deployment["image"]!,
-                          fit: BoxFit.contain,
-                          width: double.infinity,
+            showDialog(
+              context: context,
+              barrierColor: Colors.black.withOpacity(0.3),
+              builder: (_) => StatefulBuilder(
+                builder: (context, setState) {
+                  return BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                    child: Dialog(
+                      backgroundColor: Colors.transparent,
+                      insetPadding: const EdgeInsets.all(10),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        constraints: BoxConstraints(
+                          maxWidth: 800,
+                          maxHeight:
+                              MediaQuery.of(context).size.height * 0.95,
                         ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  // Down / Up arrow
-                  IconButton(
-                    icon: Icon(
-                      showDescription
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
-                      size: 32,
-                      color: isDarkTheme
-                          ? Colors.yellow.shade300
-                          : Colors.deepPurple,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        showDescription = !showDescription; // toggle here
-                      });
-                    },
-                  ),
-
-                  // Description section
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeInOut,
-                    child: showDescription
-                        ? Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: SingleChildScrollView(
-                              child: Text(
-                                deployment["longDescription"] ??
-                                    deployment["description"]!,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  height: 1.4,
-                                  fontWeight: FontWeight.w500,
-                                  color: isDarkTheme
-                                      ? Colors.yellow.shade300
-                                      : Colors.deepPurple.shade700,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: isDarkTheme
+                                ? [
+                                    Colors.grey.shade900.withOpacity(0.9),
+                                    Colors.grey.shade800.withOpacity(0.6)
+                                  ]
+                                : [
+                                    Colors.white.withOpacity(0.95),
+                                    Colors.deepPurple.shade50
+                                        .withOpacity(0.7)
+                                  ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: isDarkTheme
+                                  ? Colors.yellow.shade200
+                                      .withOpacity(0.15)
+                                  : Colors.deepPurple.withOpacity(0.2),
+                              blurRadius: 20,
+                              spreadRadius: 2,
+                            ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            AnimatedContainer(
+                              duration:
+                                  const Duration(milliseconds: 400),
+                              curve: Curves.easeInOut,
+                              height: showDescription
+                                  ? MediaQuery.of(context).size.height *
+                                      0.4
+                                  : MediaQuery.of(context).size.height *
+                                      0.6,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: InteractiveViewer(
+                                  panEnabled: true,
+                                  minScale: 1.0,
+                                  maxScale: 4.0,
+                                  child: Image.asset(
+                                    deployment["image"]!,
+                                    fit: BoxFit.contain,
+                                    width: double.infinity,
+                                  ),
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                             ),
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    ),
-  );
-}
-,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          transform: isHovered ? (Matrix4.identity()..scale(1.05)) : Matrix4.identity(),
-          decoration: BoxDecoration(
-            boxShadow: [
-              if (isHovered)
-                const BoxShadow(color: Colors.black26, blurRadius: 12, offset: Offset(0, 6)),
-            ],
-          ),
-          child: Card(
-            elevation: 3,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            color: isDarkTheme ? Colors.grey.shade800 : const Color(0xFFDCDEDF),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Container(
-                    height: 120,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: isDarkTheme ? Colors.grey.shade700 : Colors.grey.shade200,
+                            const SizedBox(height: 8),
+                            IconButton(
+                              icon: Icon(
+                                showDescription
+                                    ? Icons.keyboard_arrow_up
+                                    : Icons.keyboard_arrow_down,
+                                size: 32,
+                                color: isDarkTheme
+                                    ? Colors.yellow.shade300
+                                    : Colors.deepPurple,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  showDescription =
+                                      !showDescription;
+                                });
+                              },
+                            ),
+                            AnimatedSize(
+                              duration:
+                                  const Duration(milliseconds: 400),
+                              curve: Curves.easeInOut,
+                              child: showDescription
+                                  ? Container(
+                                      height: MediaQuery.of(context)
+                                              .size
+                                              .height *
+                                          0.3,
+                                      padding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                      child: SingleChildScrollView(
+                                        child: Text(
+                                          deployment[
+                                                  "longDescription"] ??
+                                              deployment[
+                                                  "description"]!,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            height: 1.4,
+                                            fontWeight:
+                                                FontWeight.w500,
+                                            color: isDarkTheme
+                                                ? Colors.yellow
+                                                    .shade300
+                                                : Colors.deepPurple
+                                                    .shade700,
+                                          ),
+                                          textAlign:
+                                              TextAlign.center,
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                  );
+                },
+              ),
+            );
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            transform: isHovered
+                ? (Matrix4.identity()..scale(1.05))
+                : Matrix4.identity(),
+            decoration: BoxDecoration(
+              boxShadow: [
+                if (isHovered)
+                  const BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 12,
+                      offset: Offset(0, 6)),
+              ],
+            ),
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              color: isDarkTheme
+                  ? Colors.grey.shade800
+                  : const Color(0xFFDCDEDF),
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center, // 👈 center
+                  crossAxisAlignment: CrossAxisAlignment.center, // 👈 center
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
                         deployment["image"]!,
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
+                        height: 115, // 👈 image fix height
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        deployment["title"]!,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: isDarkTheme ? Colors.white : Colors.black,
-                        ),
-                        textAlign: TextAlign.center,
+                    const SizedBox(height: 5),
+                    Text(
+                      deployment["title"]!,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkTheme ? Colors.white : Colors.black,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        deployment["description"]!,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: isDarkTheme ? Colors.yellow.shade300 : Colors.deepPurple,
-                        ),
-                        textAlign: TextAlign.center,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      deployment["description"]!,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isDarkTheme
+                            ? Colors.yellow.shade300
+                            : Colors.deepPurple,
                       ),
-                    ],
-                  ),
+                      textAlign: TextAlign.center,
+                      maxLines: 3, // 👈 description short rakha
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }

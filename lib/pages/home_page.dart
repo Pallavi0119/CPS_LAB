@@ -52,13 +52,13 @@ class HomePage extends StatelessWidget {
       backgroundColor:
           isDarkTheme ? Colors.grey.shade900 : const Color(0xFFF7F8F8),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             /// -------- Intro Paragraph with card + gradient --------
        Container(
-  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
+  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
   decoration: BoxDecoration(
     gradient: LinearGradient(
       colors: isDarkTheme
@@ -299,7 +299,7 @@ LayoutBuilder(
       return Column(
         children: deploymentImages.map((imgPath) {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1.0),
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: buildImage(imgPath),
           );
         }).toList(),
@@ -328,7 +328,7 @@ LayoutBuilder(
   builder: (context, constraints) {
     double carouselHeight = 430;
     if (constraints.maxWidth < 600) {
-      carouselHeight = 250; 
+      carouselHeight = 230; 
     } else if (constraints.maxWidth < 900) {
       carouselHeight = 350; 
     }

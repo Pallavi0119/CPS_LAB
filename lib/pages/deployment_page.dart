@@ -129,7 +129,8 @@ class DeploymentPage extends StatelessWidget {
     final bool isDarkTheme = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDarkTheme ? Colors.grey.shade900 : const Color(0xFFF7F8F8),
+      backgroundColor:
+          isDarkTheme ? Colors.grey.shade900 : const Color(0xFFF7F8F8),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -140,32 +141,25 @@ class DeploymentPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: isDarkTheme ? Colors.yellow.shade300 : Colors.deepPurple,
+                  color:
+                      isDarkTheme ? Colors.yellow.shade300 : Colors.deepPurple,
                 ),
               ),
             ),
             const SizedBox(height: 12),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                int crossAxisCount = 1;
-                if (constraints.maxWidth > 1000) crossAxisCount = 3;
-                else if (constraints.maxWidth > 700) crossAxisCount = 2;
-
-                return GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: deployments.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    childAspectRatio: 1.4,
-                  ),
-                  itemBuilder: (context, index) {
-                    final deployment = deployments[index];
-                    return _buildDeploymentCard(context, deployment, isDarkTheme);
-                  },
-                );
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: deployments.length,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 485, 
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 0.85, 
+              ),
+              itemBuilder: (context, index) {
+                final deployment = deployments[index];
+                return _buildDeploymentCard(context, deployment, isDarkTheme);
               },
             ),
           ],
@@ -173,7 +167,6 @@ class DeploymentPage extends StatelessWidget {
       ),
     );
   }
-
 
 Widget _buildDeploymentCard(BuildContext context, Map<String, String> deployment, bool isDarkTheme) {
   bool isHovered = false;
@@ -312,65 +305,65 @@ onTap: () {
 ,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          transform: isHovered ? (Matrix4.identity()..scale(1.05)) : Matrix4.identity(),
+          transform: isHovered
+              ? (Matrix4.identity()..scale(1.05))
+              : Matrix4.identity(),
           decoration: BoxDecoration(
             boxShadow: [
               if (isHovered)
-                const BoxShadow(color: Colors.black26, blurRadius: 12, offset: Offset(0, 6)),
+                const BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 12,
+                    offset: Offset(0, 6)),
             ],
           ),
           child: Card(
             elevation: 3,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             color: isDarkTheme ? Colors.grey.shade800 : const Color(0xFFDCDEDF),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Container(
-                    height: 120,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: isDarkTheme ? Colors.grey.shade700 : Colors.grey.shade200,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min, // jitna content utna hi size
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                ClipRRect(
+  borderRadius: BorderRadius.circular(10),
+  child: AspectRatio(
+    aspectRatio: 14 / 9, // ya jo bhi ratio aap chahte ho
+    child: Image.asset(
+      deployment["image"]!,
+      fit: BoxFit.cover,
+    ),
+  ),
+),
+                  const SizedBox(height: 8),
+                  Text(
+                    deployment["title"]!,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                          ? Colors.yellow.shade200
+                          : Colors.deepPurple,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Image.asset(
-                        deployment["image"]!,
-                        fit: BoxFit.contain,
-                      ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    deployment["description"]!,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: isDarkTheme
+                          ? Colors.yellow.shade100
+                          : Colors.black87,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        deployment["title"]!,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: isDarkTheme ? Colors.white : Colors.black,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        deployment["description"]!,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: isDarkTheme ? Colors.yellow.shade300 : Colors.deepPurple,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -380,3 +373,4 @@ onTap: () {
 }
 
 }
+

@@ -276,7 +276,7 @@ LayoutBuilder(
           clipBehavior: Clip.antiAlias, // ensures child image respects border radius
           child: Image.asset(
             imgPath,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
             height: isLargeScreen ? 500 : 400,
             width: double.infinity,
           ),

@@ -273,8 +273,8 @@ LayoutBuilder(
           borderRadius: BorderRadius.circular(16),
           child: Image.asset(
             imgPath,
-            fit: BoxFit.cover,
-            height: isLargeScreen ? 500 : 380,
+            fit: BoxFit.contain,
+            height: isLargeScreen ? 500 : 400,
             width: double.infinity,
           ),
         ),

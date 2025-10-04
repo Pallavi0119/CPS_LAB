@@ -185,7 +185,18 @@ Widget _buildDeploymentCard(BuildContext context, Map<String, String> deployment
       child: GestureDetector(
 onTap: () {
   bool showDescription = false; // <-- move it here
+     // Calculate responsive height for the image container
+double dialogHeight = MediaQuery.of(context).size.height * 0.6; // default
+double dialogWidth = MediaQuery.of(context).size.width * 0.9;
 
+// On mobile, reduce height so it doesn't look too tall
+if (dialogWidth < 500) {
+  dialogHeight = MediaQuery.of(context).size.height * 0.65; // smaller height
+} else if (dialogWidth < 800) {
+  dialogHeight = MediaQuery.of(context).size.height * 0.75; // medium height
+} else {
+  dialogHeight = MediaQuery.of(context).size.height * 0.95; // large screens
+}
   showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.3),
@@ -232,6 +243,8 @@ onTap: () {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+             
+
                   // Image section
                  AnimatedContainer(
   duration: const Duration(milliseconds: 400),

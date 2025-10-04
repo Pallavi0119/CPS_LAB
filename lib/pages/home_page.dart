@@ -232,7 +232,7 @@ const SizedBox(height: 50),
                 );
               },
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
 
             // Deployment Map Section
 LayoutBuilder(
@@ -273,7 +273,7 @@ LayoutBuilder(
           borderRadius: BorderRadius.circular(16),
           child: Image.asset(
             imgPath,
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
             height: isLargeScreen ? 500 : 380,
             width: double.infinity,
           ),
@@ -309,7 +309,7 @@ LayoutBuilder(
 ),
 
 
-const SizedBox(height: 40),
+const SizedBox(height: 30),
 
 
  /// -------- Carousel Section --------
@@ -328,7 +328,7 @@ LayoutBuilder(
   builder: (context, constraints) {
     double carouselHeight = 430;
     if (constraints.maxWidth < 600) {
-      carouselHeight = 270; 
+      carouselHeight = 250; 
     } else if (constraints.maxWidth < 900) {
       carouselHeight = 350; 
     }

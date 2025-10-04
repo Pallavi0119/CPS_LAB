@@ -185,18 +185,7 @@ Widget _buildDeploymentCard(BuildContext context, Map<String, String> deployment
       child: GestureDetector(
 onTap: () {
   bool showDescription = false; // <-- move it here
-     // Calculate responsive height for the image container
-double dialogHeight = MediaQuery.of(context).size.height * 0.6; // default
-double dialogWidth = MediaQuery.of(context).size.width * 0.9;
 
-// On mobile, reduce height so it doesn't look too tall
-if (dialogWidth < 500) {
-  dialogHeight = MediaQuery.of(context).size.height * 0.65; // smaller height
-} else if (dialogWidth < 800) {
-  dialogHeight = MediaQuery.of(context).size.height * 0.75; // medium height
-} else {
-  dialogHeight = MediaQuery.of(context).size.height * 0.95; // large screens
-}
   showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.3),
@@ -243,59 +232,27 @@ if (dialogWidth < 500) {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-             
-
                   // Image section
-                 AnimatedContainer(
-  duration: const Duration(milliseconds: 400),
-  curve: Curves.easeInOut,
-  height: showDescription
-      ? MediaQuery.of(context).size.height * 0.4
-      : MediaQuery.of(context).size.height * 0.6,
-  child: ClipRRect(
-    borderRadius: BorderRadius.circular(12),
-    child: Stack(
-      children: [
-        InteractiveViewer(
-          panEnabled: true,
-          minScale: 1.0,
-          maxScale: 4.0,
-          child: Image.asset(
-            deployment["image"]!,
-            fit: BoxFit.contain,
-            width: double.infinity,
-          ),
-        ),
-        // Pinch to zoom indicator
-        Positioned(
-          bottom: 8,
-          right: 8,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              children: const [
-                Icon(
-                  Icons.zoom_out_map,
-                  size: 16,
-                  color: Colors.white,
-                ),
-                SizedBox(width: 4),
-                Text(
-                  "Pinch to Zoom",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    ),
-  ),
-),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeInOut,
+                    height: showDescription
+                        ? MediaQuery.of(context).size.height * 0.4
+                        : MediaQuery.of(context).size.height * 0.6,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: InteractiveViewer(
+                        panEnabled: true,
+                        minScale: 1.0,
+                        maxScale: 4.0,
+                        child: Image.asset(
+                          deployment["image"]!,
+                          fit: BoxFit.contain,
+                          width: double.infinity,
+                        ),
+                      ),
+                    ),
+                  ),
 
                   const SizedBox(height: 8),
 

@@ -56,6 +56,62 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+
+            Text(
+  "CPS Lab Highlights",
+  style: TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    color: isDarkTheme ? Colors.yellow.shade300 : Colors.deepPurple,
+  ),
+),
+const SizedBox(height: 20),
+
+LayoutBuilder(
+  
+  builder: (context, constraints) {
+    double carouselHeight = 430;
+    if (constraints.maxWidth < 600) {
+      carouselHeight = 230; 
+    } else if (constraints.maxWidth < 900) {
+      carouselHeight = 350; 
+    }
+final screenWidth = MediaQuery.of(context).size.width;
+    return SizedBox(
+      width: double.infinity,
+      height: carouselHeight,
+      
+      child: CarouselSlider(
+        options: CarouselOptions(
+          height: carouselHeight,
+       viewportFraction: screenWidth < 600 ? 1.0 : 0.6,
+          autoPlay: true,
+          autoPlayInterval: const Duration(seconds: 3),
+          enlargeCenterPage: true,
+          enableInfiniteScroll: true,
+        ),
+        items: sliderImages.map((imgPath) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 6),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset(
+                    imgPath,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+              );
+            },
+          );
+        }).toList(),
+      ),
+    );
+  },
+),
+const SizedBox(height: 50),
             /// -------- Intro Paragraph with card + gradient --------
        Container(
   padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
@@ -244,45 +300,48 @@ LayoutBuilder(
     ];
 
     Widget buildImage(String imgPath) {
-      return GestureDetector(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (ctx) {
-              return Dialog(
-                backgroundColor: Colors.black87,
-                insetPadding: const EdgeInsets.all(10),
-                child: InteractiveViewer(
-                  panEnabled: true,
-                  minScale: 0.5,
-                  maxScale: 4,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      imgPath,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+  return GestureDetector(
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return Dialog(
+            backgroundColor: Colors.black87,
+            insetPadding: const EdgeInsets.all(10),
+            child: InteractiveViewer(
+              panEnabled: true,
+              minScale: 0.5,
+              maxScale: 4,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.asset(
+                  imgPath,
+                  fit: BoxFit.contain,
                 ),
-              );
-            },
+              ),
+            ),
           );
         },
-        child: Card(
-          elevation: 8,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16), // same circular border
-          ),
-          clipBehavior: Clip.antiAlias, // ensures child image respects border radius
-          child: Image.asset(
-            imgPath,
-            fit: BoxFit.cover,
-            height: isLargeScreen ? 500 : 360,
-            width: double.infinity,
-          ),
-        ),
       );
-    }
+    },
+    child: Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: AspectRatio(
+        aspectRatio: 9 / 9, 
+        child: Image.asset(
+          imgPath,
+          fit: BoxFit.cover,
+          width: double.infinity,
+        ),
+      ),
+    ),
+  );
+}
+
 
     if (isLargeScreen) {
       // Large screen: show in row
@@ -313,64 +372,7 @@ LayoutBuilder(
 
 
 
-const SizedBox(height: 30),
 
-
- /// -------- Carousel Section --------
-Text(
-  "CPS Lab Highlights",
-  style: TextStyle(
-    fontSize: 22,
-    fontWeight: FontWeight.bold,
-    color: isDarkTheme ? Colors.yellow.shade300 : Colors.deepPurple,
-  ),
-),
-const SizedBox(height: 20),
-
-LayoutBuilder(
-  
-  builder: (context, constraints) {
-    double carouselHeight = 430;
-    if (constraints.maxWidth < 600) {
-      carouselHeight = 230; 
-    } else if (constraints.maxWidth < 900) {
-      carouselHeight = 350; 
-    }
-final screenWidth = MediaQuery.of(context).size.width;
-    return SizedBox(
-      width: double.infinity,
-      height: carouselHeight,
-      
-      child: CarouselSlider(
-        options: CarouselOptions(
-          height: carouselHeight,
-       viewportFraction: screenWidth < 600 ? 1.0 : 0.6,
-          autoPlay: true,
-          autoPlayInterval: const Duration(seconds: 3),
-          enlargeCenterPage: true,
-          enableInfiniteScroll: true,
-        ),
-        items: sliderImages.map((imgPath) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 6),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    imgPath,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                ),
-              );
-            },
-          );
-        }).toList(),
-      ),
-    );
-  },
-),
 
 
           ],

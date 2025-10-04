@@ -276,8 +276,8 @@ LayoutBuilder(
           clipBehavior: Clip.antiAlias, // ensures child image respects border radius
           child: Image.asset(
             imgPath,
-            fit: BoxFit.contain,
-            height: isLargeScreen ? 500 : 400,
+            fit: BoxFit.cover,
+            height: isLargeScreen ? 500 : 360,
             width: double.infinity,
           ),
         ),
@@ -346,7 +346,7 @@ final screenWidth = MediaQuery.of(context).size.width;
           height: carouselHeight,
        viewportFraction: screenWidth < 600 ? 1.0 : 0.6,
           autoPlay: true,
-          autoPlayInterval: const Duration(seconds: 4),
+          autoPlayInterval: const Duration(seconds: 3),
           enlargeCenterPage: true,
           enableInfiniteScroll: true,
         ),

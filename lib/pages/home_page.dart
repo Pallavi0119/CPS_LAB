@@ -274,7 +274,7 @@ LayoutBuilder(
           child: Image.asset(
             imgPath,
             fit: BoxFit.contain,
-            height: isLargeScreen ? 500 : 400,
+            height: isLargeScreen ? 500 : 380,
             width: double.infinity,
           ),
         ),
@@ -328,9 +328,9 @@ LayoutBuilder(
   builder: (context, constraints) {
     double carouselHeight = 430;
     if (constraints.maxWidth < 600) {
-      carouselHeight = 280; 
+      carouselHeight = 270; 
     } else if (constraints.maxWidth < 900) {
-      carouselHeight = 380; 
+      carouselHeight = 350; 
     }
 final screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(

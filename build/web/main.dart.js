@@ -72487,7 +72487,7 @@ return A.ci(p,B.E,B.x,B.z)}},
 $S:494}
 A.Yw.prototype={
 $1(a){var s=null,r=A.cN(16)
-return A.kI(s,A.En(r,A.jb(a,s,B.bI,this.b?500:400,1/0)),B.a7,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.Yo(this.a,a),s,s,s,s,s,s,!1,B.bs)},
+return A.kI(s,A.En(r,A.jb(a,s,B.bI,this.b?500:380,1/0)),B.a7,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.Yo(this.a,a),s,s,s,s,s,s,!1,B.bs)},
 $S:495}
 A.Yo.prototype={
 $0(){A.at_(null,new A.Yn(this.b),this.a,t.z)},
@@ -72503,8 +72503,8 @@ $1(a){return new A.bl(B.BT,this.a.$1(a),null)},
 $S:498}
 A.Yv.prototype={
 $2(a,b){var s,r,q,p,o=b.b
-if(o<600)s=280
-else s=o<900?380:430
+if(o<600)s=270
+else s=o<900?350:430
 o=A.bi(a,null,t.w).w.a.a<600?1:0.6
 r=t.k5
 r=A.X(new A.a9(B.EL,new A.Yp(),r),r.h("at.E"))

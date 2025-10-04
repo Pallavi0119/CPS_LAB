@@ -299,7 +299,7 @@ LayoutBuilder(
       return Column(
         children: deploymentImages.map((imgPath) {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 1.0),
             child: buildImage(imgPath),
           );
         }).toList(),
@@ -328,9 +328,9 @@ LayoutBuilder(
   builder: (context, constraints) {
     double carouselHeight = 430;
     if (constraints.maxWidth < 600) {
-      carouselHeight = 200; 
-    } else if (constraints.maxWidth < 900) {
       carouselHeight = 300; 
+    } else if (constraints.maxWidth < 900) {
+      carouselHeight = 380; 
     }
 final screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
@@ -340,7 +340,7 @@ final screenWidth = MediaQuery.of(context).size.width;
       child: CarouselSlider(
         options: CarouselOptions(
           height: carouselHeight,
-       viewportFraction: screenWidth < 600 ? 0.9 : 0.6,
+       viewportFraction: screenWidth < 600 ? 1.0 : 0.6,
           autoPlay: true,
           autoPlayInterval: const Duration(seconds: 4),
           enlargeCenterPage: true,

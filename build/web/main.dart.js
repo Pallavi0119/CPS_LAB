@@ -72499,13 +72499,13 @@ A.Yq.prototype={
 $1(a){return A.fs(new A.bl(B.cs,this.a.$1(a),null),1,null)},
 $S:497}
 A.Yr.prototype={
-$1(a){return new A.bl(B.BW,this.a.$1(a),null)},
+$1(a){return new A.bl(B.BT,this.a.$1(a),null)},
 $S:498}
 A.Yv.prototype={
 $2(a,b){var s,r,q,p,o=b.b
-if(o<600)s=200
-else s=o<900?300:430
-o=A.bi(a,null,t.w).w.a.a<600?0.9:0.6
+if(o<600)s=300
+else s=o<900?380:430
+o=A.bi(a,null,t.w).w.a.a<600?1:0.6
 r=t.k5
 r=A.X(new A.a9(B.EL,new A.Yp(),r),r.h("at.E"))
 q=r.length
@@ -72521,7 +72521,7 @@ return A.di(s,A.En(A.cN(16),A.jb(this.a,s,B.kk,s,1/0)),B.r,s,s,s,s,s,B.C6,s,s,s,
 $S:501}
 A.fD.prototype={
 O(a){var s=null,r=this.d,q=r?B.Ay:B.AS,p=A.cN(10),o=A.j9(B.Cs,r?B.aH:B.W,s,20)
-return A.p9(new A.bl(B.BX,A.f5(A.b([o,B.LD,A.fs(A.ch(this.c,A.bu(s,s,r?B.D:B.w,s,s,s,s,s,s,s,s,15,s,s,B.O,s,s,!0,s,s,s,s,s,s,s,s),s),1,s)],t.p),B.ai,B.x,B.z),s),q,2,B.BU,new A.c_(p,B.q))}}
+return A.p9(new A.bl(B.BX,A.f5(A.b([o,B.LD,A.fs(A.ch(this.c,A.bu(s,s,r?B.D:B.w,s,s,s,s,s,s,s,s,15,s,s,B.O,s,s,!0,s,s,s,s,s,s,s,s),s),1,s)],t.p),B.ai,B.x,B.z),s),q,2,B.BV,new A.c_(p,B.q))}}
 A.mV.prototype={
 ae(){return new A.MN()},
 gN(){return this.c}}
@@ -72571,7 +72571,7 @@ xM(a,b,c,d,e){var s,r,q,p,o=null,n=14e5,m=A.n(e.k(0,"title"))
 m=A.hG(o,A.bu(o,o,B.Au,o,o,o,o,o,o,o,o,a,o,o,B.R,o,o,!0,o,o,o,o,o,o,o,o),m+" ")
 s=e.k(0,"highlightText")
 s=A.Iu(o,o,o,B.bP,o,o,!0,o,A.hG(A.b([m,A.hG(o,A.bu(o,o,B.aH,o,o,o,o,o,o,o,o,a,o,o,B.R,o,o,!0,o,o,o,o,o,o,o,o),s)],t.VO),o,o),B.aN,o,o,B.ac,B.aG)
-m=A.di(o,o,B.r,B.Hp,o,o,o,3,B.BV,o,o,o,a*5)
+m=A.di(o,o,B.r,B.Hp,o,o,o,3,B.BW,o,o,o,a*5)
 r=A.qU(A.dP(A.d4(A.ch(e.k(0,"subtitle"),A.bu(o,o,B.j,o,o,o,o,o,o,o,o,b,o,o,B.R,o,o,!0,o,o,o,o,o,o,o,o),o),o),A.aK(n,0,0)),0.2,A.aK(n,0,0))
 q=t.j.a(e.k(0,"bannerPoints"))
 p=A.a_(q).h("a9<1,he>")
@@ -72673,7 +72673,7 @@ $1(a){return a.Qw(!0)},
 $S:505}
 A.DI.prototype={
 O(a){var s=null
-return new A.bl(B.BT,A.f5(A.b([B.CJ,B.LF,new A.fT(1,B.lC,A.ch(this.c,A.bu(s,s,B.j,s,s,s,s,s,s,s,s,this.d,s,s,B.O,s,1.4,!0,s,s,s,s,s,s,s,s),s),s)],t.p),B.E,B.x,B.z),s)}}
+return new A.bl(B.BU,A.f5(A.b([B.CJ,B.LF,new A.fT(1,B.lC,A.ch(this.c,A.bu(s,s,B.j,s,s,s,s,s,s,s,s,this.d,s,s,B.O,s,1.4,!0,s,s,s,s,s,s,s,s),s),s)],t.p),B.E,B.x,B.z),s)}}
 A.HB.prototype={
 O(a){return A.n6(new A.a4l(A.a4(a).ax.a===B.Y))}}
 A.a4l.prototype={
@@ -76843,10 +76843,10 @@ B.b6=new A.aA(0,0,0,0)
 B.BQ=new A.aA(0,0,0,14)
 B.BR=new A.aA(0,12,0,12)
 B.BS=new A.aA(0,14,0,14)
-B.BT=new A.aA(0,2,0,2)
-B.BU=new A.aA(0,4,0,4)
-B.BV=new A.aA(0,6,0,16)
-B.BW=new A.aA(0,8,0,8)
+B.BT=new A.aA(0,1,0,1)
+B.BU=new A.aA(0,2,0,2)
+B.BV=new A.aA(0,4,0,4)
+B.BW=new A.aA(0,6,0,16)
 B.ls=new A.aA(10,10,10,10)
 B.BX=new A.aA(12,10,12,10)
 B.lt=new A.aA(12,8,12,8)

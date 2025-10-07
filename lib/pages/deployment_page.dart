@@ -106,7 +106,7 @@ class DeploymentPage extends StatelessWidget {
       "title": "Deployment 15",
       "description": "AWaDH CPS Lab launched at Acropolis Institute of Technology and Research, Indore.",
       "longDescription":
-          "",
+          "On 26 August 2025, the Indian Institute of Technology, Ropar, through its iHub – AWaDH initiative, inaugurated its 15th Cyber-Physical Systems (CPS) Lab under the National Mission on Interdisciplinary Cyber-Physical Systems (NM-ICPS) at the Acropolis Institute of Technology and Research, Indore. Marking the first CPS lab in Madhya Pradesh, this facility represents a significant step in decentralizing advanced technological research and innovation across India.",
     },
      {
       "image": "assets/images/17.png",
@@ -120,7 +120,7 @@ class DeploymentPage extends StatelessWidget {
       "title": "Deployment 17",
       "description": "AWaDH CPS Lab launched at Model Institute of Engineering and Technology, Jammu.",
       "longDescription":
-         "", },
+         "Innovation has reached the Himalayas. On 25 September 2025, the Indian Institute of Technology (IIT) Ropar – Technology and Innovation Foundation, iHub AWaDH, inaugurated its 17th Cyber-Physical Systems (CPS) Laboratory at the Model Institute of Engineering and Technology (MIET), Jammu. This marks a historic milestone — the first-ever CPS Lab in Jammu & Kashmir under the Government of India’s National Mission on Interdisciplinary Cyber-Physical Systems (NM-ICPS), Department of Science & Technology (DST). A Landmark for Deep-Tech in J&K The establishment of this CPS Lab extends the nationwide CPS Lab network to the Union Territory of Jammu & Kashmir, bringing deep-tech research, skilling, and innovation infrastructure closer to students, researchers, and entrepreneurs in the region.", },
    
   ];
 
@@ -177,7 +177,7 @@ Widget _buildDeploymentCard(BuildContext context, Map<String, String> deployment
       onExit: (_) => setState(() => isHovered = false),
       child: GestureDetector(
 onTap: () {
-  bool showDescription = false; // <-- move it here
+  bool showDescription = false; 
 
   showDialog(
     context: context,
@@ -190,10 +190,10 @@ onTap: () {
             backgroundColor: Colors.transparent,
             insetPadding: const EdgeInsets.all(10),
            child: Container(
-  width: MediaQuery.of(context).size.width * 0.9, // almost full width
+  width: MediaQuery.of(context).size.width * 0.9, 
   constraints: BoxConstraints(
-    maxWidth: 800, // increase max width
-    maxHeight: MediaQuery.of(context).size.height * 0.95, // increase max height
+    maxWidth: 800, 
+    maxHeight: MediaQuery.of(context).size.height * 0.95, 
   
               ),
               decoration: BoxDecoration(
@@ -262,7 +262,7 @@ onTap: () {
                     ),
                     onPressed: () {
                       setState(() {
-                        showDescription = !showDescription; // toggle here
+                        showDescription = !showDescription; 
                       });
                     },
                   ),
@@ -326,13 +326,13 @@ onTap: () {
               padding: const EdgeInsets.all(12.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min, // jitna content utna hi size
+                mainAxisSize: MainAxisSize.min, 
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                 ClipRRect(
   borderRadius: BorderRadius.circular(10),
   child: AspectRatio(
-    aspectRatio: 14 / 9, // ya jo bhi ratio aap chahte ho
+    aspectRatio: 14 / 9, 
     child: Image.asset(
       deployment["image"]!,
       fit: BoxFit.cover,

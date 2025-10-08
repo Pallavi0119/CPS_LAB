@@ -1,11 +1,10 @@
 import 'dart:io';
+import '../utils/access_control.dart';
 import "download.dart";
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-
 
 
 final List<Map<String, dynamic>> allSensors = [
@@ -121,6 +120,9 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath": "assets/images/stts751.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "STTS751",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/All_Temperature_Sensors/STTS751_Sensor/src/main.c",
+    "quecCodeLink":"https://github.com/sksuman14/QuecPython_All_Sensors_Codes/tree/main/STTS751_Temperature_Sensor/STTS751",
+
 },
 {
   "title": "LIS3DH",
@@ -162,6 +164,7 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath": "assets/images/lis3dh.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "LIS3DH",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/LIS3DH_Sensor/lis3dhSensor/src/main.c",
 },
 {
   "title": "W25Q16 / W25Q32",
@@ -199,6 +202,8 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath": "assets/images/memory.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "W25QXX",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/MX25r6435_and_W25q16dv_SPI_FLash/src/main.c",
+    
 },
 {
   "title": "Buzzer",
@@ -235,6 +240,7 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath": "assets/images/buzzer.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "BUZZER",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/Buzzer/src/main.c",
 },
 {
   "title": "Relay",
@@ -270,6 +276,7 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath":"assets/images/relay.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "RELAY",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/Relay/Relay_Codes/relay/src/main.c",
 },
 {
   "title": "Bluetooth Low Energyt",
@@ -434,6 +441,8 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath": "assets/images/bme680.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "BME680",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/BME680_Sensor/src/main.c",
+    "quecCodeLink":"https://github.com/sksuman14/QuecPython_All_Sensors_Codes/tree/main/BME680",
 },
 {
   "title": "Activity/Vibration",
@@ -508,6 +517,10 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath": "assets/images/lux.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "LUX",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/GY485_RS485_Lux_Sensor/src/main.c",
+    "quecCodeLink":"https://github.com/sksuman14/QuecPython_All_Sensors_Codes/tree/main/VEML7700",
+
+
 },
 {
   "title": "Groove ",
@@ -545,6 +558,7 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath": "assets/images/groove.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "GROOVE",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/Grove_16x2Lcd/src/main.c",
 },
 {
   "title": "TLV493D",
@@ -578,6 +592,7 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath": "assets/images/tlv.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "TLV",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/Tlv493d_Magnetometer/src/main.c",
 },
 {
   "title": "TOF VL53L0X",
@@ -613,6 +628,8 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath": "assets/images/vl5.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "VL",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/TOFVl53l0x_Sensor/src/main.c",
+
 },
 {
   "title": "UV LTR-390 ",
@@ -648,6 +665,7 @@ final List<Map<String, dynamic>> allSensors = [
       "imagePath": "assets/images/ltr390.png",
     "email": "krishnanpallavi63@gmail.com",
     "datasheetKey": "UVLTR",
+    "nreCodeLink": "https://github.com/sksuman14/nRF_All_Sensors_Codes/blob/main/UVLtr390_Sensor/src/main.c",
 },
 {
   "title": "Linear Magnetic Hall",
@@ -729,8 +747,6 @@ final List<Map<String, dynamic>> allSensors = [
 },
   
 ];
-
-
 class SimpleListItem extends StatelessWidget {
   final String text;
   final bool isDarkMode;
@@ -743,13 +759,18 @@ class SimpleListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // We are wrapping everything in a Card to get the "point card" look back.
+
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 4), // Controls spacing
-      elevation: 2, // A static, non-hovering elevation
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      elevation: 2,
       color: isDarkMode
-          ? const Color.fromARGB(255, 44, 44, 44)   // The non-hovered dark color
-          : const Color.fromARGB(255, 243, 243, 243), // The non-hovered light color
+          ? const Color.fromARGB(255, 44, 44, 44)
+          : const Color.fromARGB(
+              255,
+              243,
+              243,
+              243,
+            ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
@@ -759,7 +780,7 @@ class SimpleListItem extends StatelessWidget {
             Icon(
               Icons.check_circle,
               color: isDarkMode ? Colors.yellow.shade200 : Colors.deepPurple,
-              size: 20
+              size: 20,
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -778,7 +799,6 @@ class SimpleListItem extends StatelessWidget {
     );
   }
 }
-
 
 class HoverableCard extends StatefulWidget {
   final Widget child;
@@ -807,12 +827,29 @@ class _HoverableCardState extends State<HoverableCard> {
 }
 
 class ProductDescriptionPage extends StatelessWidget {
-  final int sensorIndex;
-  const ProductDescriptionPage({super.key, required this.sensorIndex});
+  final String sensorImage;
+    final String? userEmail;
+ const ProductDescriptionPage({super.key, required this.sensorImage, this.userEmail});
 
   @override
   Widget build(BuildContext context) {
-    final sensor = allSensors[sensorIndex];
+    final sensor = allSensors.firstWhere(
+      (s) => s["imagePath"] == sensorImage,
+      orElse: () => {
+        "title": "Unknown",
+        "highlightText": "",
+        "subtitle": "Description not found",
+        "bannerPoints": [],
+        "features": [],
+        "applications": [],
+        "specifications": [],
+        "imagePath": "",
+        "email": "",
+        "datasheetKey": "",
+        "nreCodeLink": "",
+        "quecCodeLink": "",
+      },
+    );
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -840,32 +877,33 @@ class ProductDescriptionPage extends StatelessWidget {
       bannerPointSize = 13;
     }
 
-    return Scaffold(
-       appBar: AppBar(
-  backgroundColor: isDarkMode ? const Color(0xFF1C3B4B) : const Color(0xFF4E7F85),
-  elevation: 0,
-  leading: Builder(
-    builder: (context) {
-      final screenWidth = MediaQuery.of(context).size.width;
-      double iconSize;
+     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: isDarkMode
+            ? const Color(0xFF1C3B4B)
+            : const Color(0xFF4E7F85),
+        elevation: 0,
+        leading: Builder(
+          builder: (context) {
+            final screenWidth = MediaQuery.of(context).size.width;
+            double iconSize;
 
-      if (screenWidth > 1024) {
-        iconSize = 20; 
-      } else if (screenWidth > 700) {
-        iconSize = 18; 
-      } else {
-        iconSize = 14; 
-      }
+            if (screenWidth > 1024) {
+              iconSize = 20;
+            } else if (screenWidth > 700) {
+              iconSize = 18;
+            } else {
+              iconSize = 14;
+            }
 
-      return IconButton(
-        icon: Icon(Icons.arrow_back, color: Colors.white, size: iconSize),
-        onPressed: () => Navigator.of(context).pop(),
-      );
-    },
-  ),
-),
-
-  extendBodyBehindAppBar: false,
+            return IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white, size: iconSize),
+              onPressed: () => Navigator.of(context).pop(),
+            );
+          },
+        ),
+      ),
+      extendBodyBehindAppBar: false,
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
@@ -880,22 +918,42 @@ class ProductDescriptionPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                
                 if (isWideScreen)
-                  _buildHeroDesktop(heroHeight, headlineSize, bannerTextSize,
-                          bannerPointSize, context, isDarkMode, sensor)
+                  _buildHeroDesktop(
+                    heroHeight,
+                    headlineSize,
+                    bannerTextSize,
+                    bannerPointSize,
+                    context,
+                    isDarkMode,
+                    sensor,
+                  )
                       .animate()
                       .slideX(begin: -0.2, duration: 1600.ms)
                       .fadeIn(duration: 1600.ms)
                 else if (isTablet)
-                  _buildHeroTablet(heroHeight, headlineSize, bannerTextSize,
-                          bannerPointSize, context, isDarkMode, sensor)
+                  _buildHeroTablet(
+                    heroHeight,
+                    headlineSize,
+                    bannerTextSize,
+                    bannerPointSize,
+                    context,
+                    isDarkMode,
+                    sensor,
+                  )
                       .animate()
                       .slideY(begin: -0.2, duration: 1600.ms)
                       .fadeIn(duration: 1600.ms)
                 else
-                  _buildHeroMobile(heroHeight, headlineSize, bannerTextSize,
-                          bannerPointSize, context, isDarkMode, sensor)
+                  _buildHeroMobile(
+                    heroHeight,
+                    headlineSize,
+                    bannerTextSize,
+                    bannerPointSize,
+                    context,
+                    isDarkMode,
+                    sensor,
+                  )
                       .animate()
                       .slideY(begin: -0.2, duration: 1600.ms)
                       .fadeIn(duration: 1600.ms),
@@ -903,9 +961,9 @@ class ProductDescriptionPage extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: (isWideScreen || isTablet)
                       ? _buildIpadLayout(isDarkMode, sensor)
-                          .animate()
-                          .fadeIn(duration: 1600.ms)
-                          .slideY(begin: 0.2, duration: 1600.ms)
+                            .animate()
+                            .fadeIn(duration: 1600.ms)
+                            .slideY(begin: 0.2, duration: 1600.ms)
                       : Column(
                           children: [
                             _buildFeaturesCard(isDarkMode, sensor)
@@ -922,7 +980,9 @@ class ProductDescriptionPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
                   child: Center(
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
@@ -937,7 +997,6 @@ class ProductDescriptionPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-        
               ],
             ),
           ),
@@ -946,35 +1005,36 @@ class ProductDescriptionPage extends StatelessWidget {
     );
   }
 
+
   Widget _buildHeroDesktop(
-      double heroHeight,
-      double headlineSize,
-      double bannerTextSize,
-      double bannerPointSize,
-      BuildContext context,
-      bool isDarkMode,
-      Map sensor) {
+    double heroHeight,
+    double headlineSize,
+    double bannerTextSize,
+    double bannerPointSize,
+    BuildContext context,
+    bool isDarkMode,
+    Map sensor,
+  ) {
     return Container(
       color: isDarkMode ? const Color(0xFF1C3B4B) : const Color(0xFF4E7F85),
       padding: const EdgeInsets.symmetric(horizontal: 92, vertical: 4),
       child: Row(
-        
-        
         children: [
           Expanded(
-            
             flex: 1,
-            
-            child: _buildHeroText(
+
+            child:
+                _buildHeroText(
               headlineSize,
               bannerTextSize,
               bannerPointSize,
               context,
+              isDarkMode,
               sensor,
             )
-                .animate()
-                .fadeIn(duration: 1500.ms)
-                .slideX(begin: -0.2, duration: 1600.ms),
+                    .animate()
+                    .fadeIn(duration: 1500.ms)
+                    .slideX(begin: -0.2, duration: 1600.ms),
           ),
           const SizedBox(width: 20),
           Expanded(
@@ -987,32 +1047,38 @@ class ProductDescriptionPage extends StatelessWidget {
                   .scale(duration: 1800.ms, curve: Curves.easeOutBack),
             ),
           ),
-       
-     
         ],
       ),
     );
   }
 
   Widget _buildHeroTablet(
-      double heroHeight,
-      double headlineSize,
-      double bannerTextSize,
-      double bannerPointSize,
-      BuildContext context,
-      bool isDarkMode,
-      Map sensor) {
+    double heroHeight,
+    double headlineSize,
+    double bannerTextSize,
+    double bannerPointSize,
+    BuildContext context,
+    bool isDarkMode,
+    Map sensor,
+  ) {
     return Column(
       children: [
         Container(
           width: double.infinity,
           color: isDarkMode ? const Color(0xFF1C3B4B) : const Color(0xFF4E7F85),
           padding: const EdgeInsets.all(16),
-          child: _buildHeroText(headlineSize, bannerTextSize, bannerPointSize,
-                  context, sensor)
-              .animate()
-              .fadeIn(duration: 1400.ms)
-              .slideX(begin: -0.2, duration: 1400.ms),
+          child:
+              _buildHeroText(
+              headlineSize,
+              bannerTextSize,
+              bannerPointSize,
+              context,
+              isDarkMode,
+              sensor,
+            )
+                  .animate()
+                  .fadeIn(duration: 1400.ms)
+                  .slideX(begin: -0.2, duration: 1400.ms),
         ),
         SizedBox(
           height: heroHeight * 0.6,
@@ -1021,30 +1087,37 @@ class ProductDescriptionPage extends StatelessWidget {
               .fadeIn(duration: 1600.ms)
               .scale(duration: 1800.ms, curve: Curves.easeOutBack),
         ),
-     
       ],
     );
   }
 
   Widget _buildHeroMobile(
-      double heroHeight,
-      double headlineSize,
-      double bannerTextSize,
-      double bannerPointSize,
-      BuildContext context,
-      bool isDarkMode,
-      Map sensor) {
+    double heroHeight,
+    double headlineSize,
+    double bannerTextSize,
+    double bannerPointSize,
+    BuildContext context,
+    bool isDarkMode,
+    Map sensor,
+  ) {
     return Column(
       children: [
         Container(
           width: double.infinity,
           color: isDarkMode ? const Color(0xFF1C3B4B) : const Color(0xFF4E7F85),
           padding: const EdgeInsets.all(16),
-          child: _buildHeroText(headlineSize, bannerTextSize, bannerPointSize,
-                  context, sensor)
-              .animate()
-              .fadeIn(duration: 1400.ms)
-              .slideX(begin: -0.2, duration: 1400.ms),
+          child:
+             _buildHeroText(
+              headlineSize,
+              bannerTextSize,
+              bannerPointSize,
+              context,
+              isDarkMode,
+              sensor,
+            )
+                  .animate()
+                  .fadeIn(duration: 1400.ms)
+                  .slideX(begin: -0.2, duration: 1400.ms),
         ),
         SizedBox(
           height: heroHeight * 0.6,
@@ -1053,123 +1126,218 @@ class ProductDescriptionPage extends StatelessWidget {
               .fadeIn(duration: 1600.ms)
               .scale(duration: 1800.ms, curve: Curves.easeOutBack),
         ),
-       
       ],
     );
   }
 
-Widget _buildHeroText(double headlineSize, double bannerTextSize,
-    double bannerPointSize, BuildContext context, Map sensor) {
-  return Stack(
-    children: [
-      // Hero content
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: "${sensor["title"]} ",
-                  style: TextStyle(
+  Widget _buildHeroText(
+    double headlineSize,
+    double bannerTextSize,
+    double bannerPointSize,
+    BuildContext context,
+    bool isDarkMode,
+    Map sensor,
+  ) {
+ 
+
+
+
+  debugPrint("buildHeroText called with email: $userEmail, imagePath: ${sensor["imagePath"]}");
+
+  debugPrint("buildHeroText called with email: ${this.userEmail}, imagePath: ${sensor["imagePath"]}");
+
+  // Check if user has access to code links for this sensor
+  final email = userEmail?.toLowerCase() ?? "";
+  bool hasCodeAccess = false;
+  if (email == "guest" || email.isEmpty) {
+    hasCodeAccess = false;
+    debugPrint("No access: Email is 'guest' or empty");
+  } else {
+
+    final imageFileName = sensor["imagePath"].split('/').last;
+  
+    final matchingUser = userAccess.keys.firstWhere(
+      (key) => email.contains(key),
+      orElse: () => "",
+    );
+    if (matchingUser.isNotEmpty) {
+      hasCodeAccess = userAccess[matchingUser]!.contains(imageFileName);
+      debugPrint(
+        "User: $matchingUser, ImagePath: $imageFileName, "
+        "AllowedPaths: ${userAccess[matchingUser]}, Access: $hasCodeAccess"
+      );
+    } else {
+      debugPrint("No matching user found for email: $email");
+    }
+  }
+
+    return Stack(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "${sensor["title"]} ",
+                    style: TextStyle(
                       fontSize: headlineSize,
                       fontWeight: FontWeight.bold,
-                      color: const Color.fromARGB(255, 174, 130, 250)),
-                ),
-                TextSpan(
-                  text: sensor["highlightText"],
-                  style: TextStyle(
+                      color: const Color.fromARGB(255, 174, 130, 250),
+                    ),
+                  ),
+                  TextSpan(
+                    text: sensor["highlightText"],
+                    style: TextStyle(
                       fontSize: headlineSize,
                       fontWeight: FontWeight.bold,
                       color: Colors.yellow.shade200,
-                ),)
-              ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 6, bottom: 16),
-            height: 3,
-            width: headlineSize * 5,
-            color: Colors.lightBlueAccent,
-          ),
-          Text(
-            sensor["subtitle"],
-            style: TextStyle(
+            Container(
+              margin: const EdgeInsets.only(top: 6, bottom: 16),
+              height: 3,
+              width: headlineSize * 5,
+              color: Colors.lightBlueAccent,
+            ),
+            Text(
+              sensor["subtitle"],
+              style: TextStyle(
                 fontSize: bannerTextSize,
                 fontWeight: FontWeight.bold,
-                color: Colors.white),
-          )
-              .animate()
-              .fadeIn(duration: 1400.ms)
-              .slideY(begin: 0.2, duration: 1400.ms),
-          const SizedBox(height: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: (sensor["bannerPoints"] as List<dynamic>)
-                .map((point) => BannerPoint(point, fontSize: bannerPointSize)
-                    .animate()
-                    .fadeIn(duration: 1300.ms)
-                    .slideX(begin: -0.1, duration: 1300.ms))
-                .toList(),
-          ),
-          const SizedBox(height: 20),
-          _buildBannerButton(
-            "Enquire",
-            Colors.deepPurple,
-            () => _sendEmail(context, sensor["email"]),
-          ).animate().scale(duration: 1400.ms, curve: Curves.easeOutBack),
-        ],
-      ),
-
-    
-    ],
-  );
-}
-
-
-Future<void> _sendEmail(BuildContext context, String email) async {
-  final subject = Uri.encodeComponent("Product Enquiry");
-  final body = Uri.encodeComponent("Hello, I am interested in your product.");
-
-  final Uri mailtoUri = Uri(
-    scheme: 'mailto',
-    path: email,
-    query: "subject=$subject&body=$body",
-  );
-
-  try {
-    bool launched = false;
-
-    // Case 1: Web but running on mobile browser → use mailto
-    if (kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)) {
-      launched = await launchUrl(mailtoUri);
-    }
-    // Case 2: Native mobile app
-    else if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-      launched = await launchUrl(mailtoUri, mode: LaunchMode.externalApplication);
-    }
-    // Case 3: Desktop (Windows/Mac/Linux) → Gmail fallback
-    else {
-      final gmailUrl = Uri.parse(
-        "https://mail.google.com/mail/?view=cm&fs=1&to=${Uri.encodeComponent(email)}"
-        "&su=$subject&body=$body",
-      );
-      launched = await launchUrl(gmailUrl, mode: LaunchMode.externalApplication);
-    }
-
-    if (!launched) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Could not open email client.")),
-      );
-    }
-  } catch (e) {
-    debugPrint("Email error: $e");
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Unable to open email client.")),
+                color: Colors.white,
+              ),
+            )
+                .animate()
+                .fadeIn(duration: 1400.ms)
+                .slideY(begin: 0.2, duration: 1400.ms),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: (sensor["bannerPoints"] as List<dynamic>)
+                  .map(
+                    (point) => BannerPoint(point, fontSize: bannerPointSize)
+                        .animate()
+                        .fadeIn(duration: 1300.ms)
+                        .slideX(begin: -0.1, duration: 1300.ms),
+                  )
+                  .toList(),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                _buildBannerButton(
+                  "Enquire",
+                  Colors.deepPurple,
+                  () => _sendEmail(context, sensor["email"]),
+                ).animate().scale(duration: 1400.ms, curve: Curves.easeOutBack),
+                if (hasCodeAccess) ...[
+                  const SizedBox(width: 16),
+               
+                  Tooltip(
+                    message: "nRF Codes",
+                    waitDuration: const Duration(milliseconds: 400),
+                    child: IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.amber.shade700,
+                        padding: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      icon: const Icon(Icons.code, color: Colors.white),
+                      onPressed: () => _launchURL(sensor["nreCodeLink"]),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+              
+                  Tooltip(
+                    message: "QuecPython Codes",
+                    waitDuration: const Duration(milliseconds: 400),
+                    child: IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        padding: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      icon: const Icon(Icons.developer_mode, color: Colors.white),
+                      onPressed: () => _launchURL(sensor["quecCodeLink"]),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
-}
 
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint("Could not launch $url");
+    }
+  }
+
+  Future<void> _sendEmail(BuildContext context, String email) async {
+    final subject = Uri.encodeComponent("Product Enquiry");
+    final body = Uri.encodeComponent("Hello, I am interested in your product.");
+
+    final Uri mailtoUri = Uri(
+      scheme: 'mailto',
+      path: email,
+      query: "subject=$subject&body=$body",
+    );
+
+    try {
+      bool launched = false;
+
+      // Case 1: Web but running on mobile browser → use mailto
+      if (kIsWeb &&
+          (defaultTargetPlatform == TargetPlatform.iOS ||
+              defaultTargetPlatform == TargetPlatform.android)) {
+        launched = await launchUrl(mailtoUri);
+      }
+      // Case 2: Native mobile app
+      else if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+        launched = await launchUrl(
+          mailtoUri,
+          mode: LaunchMode.externalApplication,
+        );
+      }
+      // Case 3: Desktop (Windows/Mac/Linux) → Gmail fallback
+      else {
+        final gmailUrl = Uri.parse(
+          "https://mail.google.com/mail/?view=cm&fs=1&to=${Uri.encodeComponent(email)}"
+          "&su=$subject&body=$body",
+        );
+        launched = await launchUrl(
+          gmailUrl,
+          mode: LaunchMode.externalApplication,
+        );
+      }
+
+      if (!launched) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Could not open email client.")),
+        );
+      }
+    } catch (e) {
+      debugPrint("Email error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Unable to open email client.")),
+      );
+    }
+  }
 
   // ---------------- FEATURES & APPLICATIONS ----------------
   Widget _buildIpadLayout(bool isDarkMode, Map sensor) {
@@ -1177,21 +1345,22 @@ Future<void> _sendEmail(BuildContext context, String email) async {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-            child: _buildFeaturesCard(isDarkMode, sensor)
-                .animate()
-                .fadeIn(duration: 1400.ms)
-                .slideX(begin: -0.2, duration: 1400.ms)),
+          child: _buildFeaturesCard(isDarkMode, sensor)
+              .animate()
+              .fadeIn(duration: 1400.ms)
+              .slideX(begin: -0.2, duration: 1400.ms),
+        ),
         const SizedBox(width: 16),
         Expanded(
-            child: _buildApplicationsCard(isDarkMode, sensor)
-                .animate()
-                .fadeIn(duration: 1400.ms)
-                .slideX(begin: 0.2, duration: 1400.ms)),
+          child: _buildApplicationsCard(isDarkMode, sensor)
+              .animate()
+              .fadeIn(duration: 1400.ms)
+              .slideX(begin: 0.2, duration: 1400.ms),
+        ),
       ],
     );
   }
 
-  
   Widget _buildFeaturesCard(bool isDarkMode, Map sensor) {
     // The original Card widget and its content
     final cardContent = Card(
@@ -1203,18 +1372,23 @@ Future<void> _sendEmail(BuildContext context, String email) async {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Key Features",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: isDarkMode ? Colors.yellow.shade200  : Colors.deepPurple)),
+            Text(
+              "Key Features",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: isDarkMode ? Colors.yellow.shade200 : Colors.deepPurple,
+              ),
+            ),
             const SizedBox(height: 10),
             // Use the new SimpleListItem instead of HoverListItem
             ...(sensor["features"] as List<dynamic>)
-                .map((f) => SimpleListItem(text: f, isDarkMode: isDarkMode)
-                    .animate()
-                    .fadeIn(duration: 1300.ms)
-                    .slideY(begin: 0.1, duration: 1300.ms))
+                .map(
+                  (f) => SimpleListItem(text: f, isDarkMode: isDarkMode)
+                      .animate()
+                      .fadeIn(duration: 1300.ms)
+                      .slideY(begin: 0.1, duration: 1300.ms),
+                )
                 .toList(),
           ],
         ),
@@ -1225,7 +1399,6 @@ Future<void> _sendEmail(BuildContext context, String email) async {
     return HoverableCard(child: cardContent);
   }
 
- 
   Widget _buildApplicationsCard(bool isDarkMode, Map sensor) {
     final cardContent = Card(
       elevation: 4,
@@ -1236,18 +1409,23 @@ Future<void> _sendEmail(BuildContext context, String email) async {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Applications",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: isDarkMode ? Colors.yellow.shade200  : Colors.deepPurple)),
+            Text(
+              "Applications",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: isDarkMode ? Colors.yellow.shade200 : Colors.deepPurple,
+              ),
+            ),
             const SizedBox(height: 10),
             // Use the new SimpleListItem
             ...(sensor["applications"] as List<dynamic>)
-                .map((a) => SimpleListItem(text: a, isDarkMode: isDarkMode)
-                    .animate()
-                    .fadeIn(duration: 1300.ms)
-                    .slideY(begin: 0.1, duration: 1300.ms))
+                .map(
+                  (a) => SimpleListItem(text: a, isDarkMode: isDarkMode)
+                      .animate()
+                      .fadeIn(duration: 1300.ms)
+                      .slideY(begin: 0.1, duration: 1300.ms),
+                )
                 .toList(),
           ],
         ),
@@ -1258,9 +1436,12 @@ Future<void> _sendEmail(BuildContext context, String email) async {
     return HoverableCard(child: cardContent);
   }
 
-  // ✅ MODIFIED: Use HoverableCard and SimpleListItem
+
   Widget _buildSpecificationsCard(
-      BuildContext context, bool isDarkMode, Map sensor) {
+    BuildContext context,
+    bool isDarkMode,
+    Map sensor,
+  ) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isWideScreen = screenWidth > 800;
     final specs = sensor["specifications"] as List<dynamic>;
@@ -1274,11 +1455,14 @@ Future<void> _sendEmail(BuildContext context, String email) async {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Specifications",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: isDarkMode ?  Colors.yellow.shade200  : Colors.deepPurple)),
+            Text(
+              "Specifications",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: isDarkMode ? Colors.yellow.shade200 : Colors.deepPurple,
+              ),
+            ),
             const SizedBox(height: 20),
             if (isWideScreen)
               Row(
@@ -1286,44 +1470,52 @@ Future<void> _sendEmail(BuildContext context, String email) async {
                 children: [
                   Expanded(
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: specs
-                            .sublist(0, (specs.length / 2).ceil())
-                            // Use the new SimpleListItem
-                            .map((s) => SimpleListItem(
-                                text: s, isDarkMode: isDarkMode))
-                            .toList()),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: specs
+                          .sublist(0, (specs.length / 2).ceil())
+                        
+                          .map(
+                            (s) =>
+                                SimpleListItem(text: s, isDarkMode: isDarkMode),
+                          )
+                          .toList(),
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: specs
-                            .sublist((specs.length / 2).ceil())
-                            // Use the new SimpleListItem
-                            .map((s) => SimpleListItem(
-                                text: s, isDarkMode: isDarkMode))
-                            .toList()),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: specs
+                          .sublist((specs.length / 2).ceil())
+                        
+                          .map(
+                            (s) =>
+                                SimpleListItem(text: s, isDarkMode: isDarkMode),
+                          )
+                          .toList(),
+                    ),
                   ),
                 ],
               )
             else
               Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: specs
-                      // Use the new SimpleListItem
-                      .map((s) => SimpleListItem(text: s, isDarkMode: isDarkMode))
-                      .toList()),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: specs
+                 
+                    .map((s) => SimpleListItem(text: s, isDarkMode: isDarkMode))
+                    .toList(),
+              ),
             const SizedBox(height: 40),
             Center(
               child: _buildBannerButton(
                 "Download Datasheet",
-                   Colors.deepPurple,
+                Colors.deepPurple,
                 () {
                   DownloadManager.downloadFile(
-                      context: context,
-                      sensorKey: sensor["datasheetKey"],
-                      fileType: "datasheet");
+                    context: context,
+                    sensorKey: sensor["datasheetKey"],
+                    fileType: "datasheet",
+                  );
                 },
               ).animate().scale(duration: 1400.ms, curve: Curves.easeOutBack),
             ),
@@ -1331,35 +1523,38 @@ Future<void> _sendEmail(BuildContext context, String email) async {
         ),
       ),
     );
-    
-    // 👉 Wrap the card content in HoverableCard
+
+
     return HoverableCard(child: cardContent);
   }
 
   // ---------------- HELPERS ----------------
 
   static Widget _buildBannerButton(
-      String label, Color color, VoidCallback onPressed) {
+    String label,
+    Color color,
+    VoidCallback onPressed,
+  ) {
     return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-        elevation: 8,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      ),
-      onPressed: onPressed,
-      icon: const Icon(Icons.arrow_forward, color: Colors.white),
-      label: Text(
-        label,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    )
-        .animate(
-          onPlay: (controller) => controller.repeat(reverse: true),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
+            elevation: 8,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          ),
+          onPressed: onPressed,
+          icon: const Icon(Icons.arrow_forward, color: Colors.white),
+          label: Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         )
+        .animate(onPlay: (controller) => controller.repeat(reverse: true))
         .scale(
           duration: 1200.ms,
           begin: const Offset(1, 1),
@@ -1367,10 +1562,7 @@ Future<void> _sendEmail(BuildContext context, String email) async {
           curve: Curves.easeInOut,
         )
         .then()
-        .shimmer(
-          duration: 1500.ms,
-          color: Colors.white.withOpacity(0.2),
-        );
+        .shimmer(duration: 1500.ms, color: Colors.white.withOpacity(0.2));
   }
 }
 
@@ -1404,30 +1596,33 @@ class _HoverListItemState extends State<HoverListItem> {
         child: Card(
           elevation: _isHovering ? 6 : 2,
           color: _isHovering
-              ? (widget.isDarkMode
-                  ? Colors.teal.shade800
-                  : Colors.teal.shade50)
+              ? (widget.isDarkMode ? Colors.teal.shade800 : Colors.teal.shade50)
               : (widget.isDarkMode
-                  ? const Color.fromARGB(255, 44, 44, 44)
-                  : const Color.fromARGB(255, 243, 243, 243)),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ? const Color.fromARGB(255, 44, 44, 44)
+                    : const Color.fromARGB(255, 243, 243, 243)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
             child: Row(
               children: [
-                Icon(Icons.check_circle,
-                    color: widget.isDarkMode ? Colors.tealAccent : Colors.teal,
-                    size: 20),
+                Icon(
+                  Icons.check_circle,
+                  color: widget.isDarkMode ? Colors.tealAccent : Colors.teal,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
-                    child: Text(widget.text,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: widget.isDarkMode
-                                ? Colors.white
-                                : Colors.black87))),
+                  child: Text(
+                    widget.text,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: widget.isDarkMode ? Colors.white : Colors.black87,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -1452,13 +1647,18 @@ class BannerPoint extends StatelessWidget {
           const Icon(Icons.circle, size: 8, color: Colors.white),
           const SizedBox(width: 6),
           Flexible(
-              child: Text(text,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: fontSize ?? 14,
-                      fontWeight: FontWeight.w500,
-                      height: 1.4))),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: fontSize ?? 14,
+                fontWeight: FontWeight.w500,
+                height: 1.4,
+              ),
+            ),
+          ),
         ],
       ),
     );
-  }}
+  }
+}

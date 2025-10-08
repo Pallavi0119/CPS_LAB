@@ -1,122 +1,222 @@
 import 'package:flutter/material.dart';
+import 'pages/login_page.dart';
+import 'pages/products_page.dart';
+import 'widgets/topbar.dart';
+import 'widgets/sidebar.dart';
 import 'pages/home_page.dart';
 import 'pages/deployment_page.dart';
-import 'pages/products_page.dart';
 import 'pages/contact_page.dart';
-import 'widgets/sidebar.dart';
-import 'widgets/topbar.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'config/amplify_configuration.dart';
 
-void main() {
-  runApp(CpsLab());
-}
 
-class CpsLab extends StatefulWidget {
-  const CpsLab({super.key});
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  @override
-  CpsLabState createState() => CpsLabState();
-}
-
-class CpsLabState extends State<CpsLab> {
-  Widget _selectedPage = HomePage();
-  bool _isDarkTheme = false;
-  String _currentPageName = "Home";
-
-  void _onPageSelected(String page) {
-    setState(() {
-      _currentPageName = page;
-      switch (page) {
-        case 'Home':
-          _selectedPage = HomePage();
-          break;
-        case 'Deployments':
-          _selectedPage = DeploymentPage();
-          break;
-        case 'Products':
-          _selectedPage = ProductsPage();
-          break;
-        case 'Contact':
-          _selectedPage = ContactPage();
-          break;
-      }
-    });
+  try {
+    final auth = AmplifyAuthCognito();
+    await Amplify.addPlugin(auth);
+    await Amplify.configure(amplifyconfig);
+  } catch (e) {
+    print("Amplify already configured or error: $e");
   }
 
-  void _toggleTheme() {
+  runApp(CpsLabApp(key: appKey));
+}
+
+
+//  global key to reset the app on logout
+final GlobalKey<_CpsLabState> appKey = GlobalKey<_CpsLabState>();
+
+class CpsLabApp extends StatefulWidget {
+  const CpsLabApp({super.key});
+
+  @override
+  _CpsLabState createState() => _CpsLabState();
+}
+
+class _CpsLabState extends State<CpsLabApp> {
+  Key _appKey = UniqueKey(); 
+
+  void resetApp() {
     setState(() {
-      _isDarkTheme = !_isDarkTheme;
+      _appKey = UniqueKey();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      key: _appKey,
+      debugShowCheckedModeBanner: false,
+      home: const CpsLab(),
+    );
+  }
+}
+
+// ------------------ MAIN APP -------------------
+class CpsLab extends StatefulWidget {
+  const CpsLab({super.key});
+
+  @override
+  CpsLabState createState() => CpsLabState();
+}
+class CpsLabState extends State<CpsLab> {
+  Widget _selectedPage = const HomePage();
+  bool _isDarkTheme = false;
+  String _currentPageName = "Home";
+  String? loggedInEmail; 
+  bool _isCheckingUser = true; 
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUser();
+  }
+
+  void _checkUser() async {
+    try {
+      final user = await Amplify.Auth.getCurrentUser();
+      final attributes = await Amplify.Auth.fetchUserAttributes();
+      final emailAttr = attributes.firstWhere(
+        (attr) => attr.userAttributeKey.key == 'email',
+        orElse: () => const AuthUserAttribute(
+          userAttributeKey: CognitoUserAttributeKey.email,
+          value: 'Unknown',
+        ),
+      );
+
+      setState(() {
+        loggedInEmail = emailAttr.value;
+      });
+    } catch (e) {
+      setState(() {
+        loggedInEmail = null;
+      });
+    } finally {
+      setState(() {
+        _isCheckingUser = false; 
+      });
+    }
+  }
+
+  void _onPageSelected(String page) {
+    setState(() {
+      _currentPageName = page;
+      switch (page) {
+        case 'Home':
+          _selectedPage = const HomePage();
+          break;
+        case 'Deployments':
+          _selectedPage = const DeploymentPage();
+          break;
+        case 'Products':
+          _selectedPage = ProductsPage(userEmail: loggedInEmail);
+          break;
+        case 'Contact':
+          _selectedPage = const ContactPage();
+          break;
+      }
+    });
+  }
+
+  void _toggleTheme() => setState(() => _isDarkTheme = !_isDarkTheme);
+  void _setUser(String? email) => setState(() => loggedInEmail = email);
+
+  void _logoutAndReset() async {
+    try {
+      await Amplify.Auth.signOut();
+    } catch (e) {
+      print("Signout error: $e");
+    }
+    setState(() {
+      loggedInEmail = null;
+      _selectedPage = const HomePage();
+      _currentPageName = "Home";
+    });
+    appKey.currentState?.resetApp();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isCheckingUser) {
+    
+      return const MaterialApp(
+         debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        ),
+      );
+    }
+
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: _isDarkTheme ? ThemeData.dark() : ThemeData.light(),
-      title: "CPS Lab Website",
-      home: LayoutBuilder(
-        builder: (context, constraints) {
-          bool isMobile = constraints.maxWidth < 900;
-
-          return Scaffold(
-            appBar: isMobile
-                ? AppBar(
-                    // ✅ Transparent AppBar
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    iconTheme: IconThemeData(
-                      color: _isDarkTheme ? Colors.white : Colors.black87,
-                    ),
-                    actions: [
-                      IconButton(
-                        icon: Icon(
-                          _isDarkTheme ? Icons.light_mode : Icons.dark_mode,
-                        ),
-                        onPressed: _toggleTheme,
-                      ),
-                    ],
-                  )
-                : null,
-
-            drawer: isMobile
-                ? SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.75 > 300
-                        ? 300
-                        : MediaQuery.of(context).size.width * 0.75,
-                    child: Sidebar(
-                      onPageSelected: _onPageSelected,
-                      selectedPage: _currentPageName,
-                      isDarkTheme: _isDarkTheme,
-                    ),
-                  )
-                : null,
-
-            body: Row(
-              children: [
-                if (!isMobile)
-                  Sidebar(
-                    onPageSelected: _onPageSelected,
-                    selectedPage: _currentPageName,
-                    isDarkTheme: _isDarkTheme,
-                  ),
-
-                Expanded(
-                  child: Column(
+      home: loggedInEmail == null
+          ? LoginPage(onLogin: _setUser)
+          : LayoutBuilder(
+              builder: (context, constraints) {
+                bool isMobile = constraints.maxWidth < 900;
+                return Scaffold(
+                  appBar: isMobile
+                      ? AppBar(
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                          iconTheme: IconThemeData(
+                            color: _isDarkTheme ? Colors.white : Colors.black,
+                          ),
+                          actions: [
+                            IconButton(
+                              icon: Icon(
+                                _isDarkTheme
+                                    ? Icons.light_mode
+                                    : Icons.dark_mode,
+                              ),
+                              onPressed: _toggleTheme,
+                            ),
+                          ],
+                        )
+                      : null,
+                  drawer: isMobile
+                      ? SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.75 > 300
+                              ? 300
+                              : MediaQuery.of(context).size.width * 0.75,
+                          child: Sidebar(
+                            onPageSelected: _onPageSelected,
+                            selectedPage: _currentPageName,
+                            isDarkTheme: _isDarkTheme,
+                          ),
+                        )
+                      : null,
+                  body: Row(
                     children: [
                       if (!isMobile)
-                        TopBar(
-                          onToggleTheme: _toggleTheme,
+                        Sidebar(
+                          onPageSelected: _onPageSelected,
+                          selectedPage: _currentPageName,
                           isDarkTheme: _isDarkTheme,
                         ),
-                      Expanded(child: _selectedPage),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            if (!isMobile)
+                              TopBar(
+                                onToggleTheme: _toggleTheme,
+                                isDarkTheme: _isDarkTheme,
+                                userEmail: loggedInEmail ?? "Guest",
+                                onLogout: _logoutAndReset,
+                              ),
+                            Expanded(child: _selectedPage),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

@@ -135,11 +135,7 @@ class Sidebar extends StatelessWidget {
                 Icons.download,
                 "https://example.com/config.zip",
               ),
-              _buildBottomButtonWithImage(
-                "GitHub",
-                "assets/images/github.png",
-                "https://github.com/sksuman14/BLE_Sense_App",
-              ),
+
               _buildBottomButton(
                 "Download BLE App",
                 Icons.phone_android,
@@ -169,7 +165,7 @@ class Sidebar extends StatelessWidget {
         onTap: () {
           onPageSelected(title);
 
-          // ✅ Agar Drawer open hai (mobile), to close karo
+      
           if (Scaffold.of(context).isDrawerOpen) {
             Navigator.of(context).pop();
           }
@@ -204,30 +200,6 @@ class Sidebar extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildBottomButtonWithImage(
-    String tooltip,
-    String imagePath,
-    String url,
-  ) {
-    return IconButton(
-      onPressed: () async {
-        Uri uri = Uri.parse(url);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        } else {
-          print("Could not launch $url");
-        }
-      },
-      icon: Image.asset(
-        imagePath,
-        width: 28,
-        height: 28,
-        color: isDarkTheme ? Colors.white : Colors.black87,
-      ),
-      tooltip: tooltip,
     );
   }
 

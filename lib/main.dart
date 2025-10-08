@@ -159,25 +159,61 @@ class CpsLabState extends State<CpsLab> {
               builder: (context, constraints) {
                 bool isMobile = constraints.maxWidth < 900;
                 return Scaffold(
-                  appBar: isMobile
-                      ? AppBar(
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
-                          iconTheme: IconThemeData(
-                            color: _isDarkTheme ? Colors.white : Colors.black,
-                          ),
-                          actions: [
-                            IconButton(
-                              icon: Icon(
-                                _isDarkTheme
-                                    ? Icons.light_mode
-                                    : Icons.dark_mode,
-                              ),
-                              onPressed: _toggleTheme,
-                            ),
-                          ],
-                        )
-                      : null,
+              appBar: isMobile
+    ? AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: _isDarkTheme ? Colors.white : Colors.black,
+        ),
+        title: Text(
+          loggedInEmail != null
+              ? "Hi, ${loggedInEmail!.split('@')[0]}"
+              : "Guest",
+          style: TextStyle(
+            color: _isDarkTheme ? Colors.white : Colors.black,
+            fontSize: 16,
+          ),
+        ),
+        actions: [
+        
+          IconButton(
+            icon: Icon(
+              _isDarkTheme ? Icons.light_mode : Icons.dark_mode,
+              color: _isDarkTheme ? Colors.white : Colors.black,
+            ),
+            onPressed: _toggleTheme,
+          ),
+          const SizedBox(width: 8),
+
+        
+          TextButton.icon(
+            onPressed: () {
+              if (loggedInEmail != null) {
+                _logoutAndReset();
+              } else {
+                setState(() {
+                  _selectedPage = LoginPage(onLogin: _setUser);
+                  _currentPageName = "Login";
+                });
+              }
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: _isDarkTheme ? Colors.white : Colors.black,
+            ),
+           
+            label: Text(
+              loggedInEmail == "Guest" ? "Login" : "Logout",
+              style: const TextStyle(fontSize: 14),
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
+      )
+    : null,
+
+
+
                   drawer: isMobile
                       ? SizedBox(
                           width: MediaQuery.of(context).size.width * 0.75 > 300

@@ -23,7 +23,7 @@ class TopBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Logged in as: $userEmail",
+            "Hi: $userEmail",
             style: TextStyle(
               color: isDarkTheme ? Colors.yellow.shade200 : Colors.deepPurple,
               fontWeight: FontWeight.bold,

@@ -41,26 +41,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _formController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    _pageLoadController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    );
+    _formController =
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
+    _pageLoadController =
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 800));
 
-    _pageFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _pageLoadController, curve: Curves.easeOut),
-    );
-
-    _pageSlideAnimation =
-        Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _pageLoadController,
-            curve: Curves.easeOutCubic,
-          ),
-        );
+    _pageFadeAnimation = Tween<double>(begin: 0.0, end: 1.0)
+        .animate(CurvedAnimation(parent: _pageLoadController, curve: Curves.easeOut));
+    _pageSlideAnimation = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero)
+        .animate(CurvedAnimation(parent: _pageLoadController, curve: Curves.easeOutCubic));
 
     _pageLoadController.forward();
   }
@@ -97,12 +86,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     });
   }
 
-  // ---------------- Validators ----------------
-
+  // ---------- VALIDATION ----------
   bool validateUsername() {
     final username = usernameController.text.trim();
     if (username.isEmpty) {
       usernameError = "Username cannot be empty";
+      return false;
+    }
+    if (username.contains('@')) {
+      usernameError = "Username cannot be an email format";
       return false;
     }
     usernameError = null;
@@ -145,16 +137,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       passwordError = "Password cannot be empty";
       return false;
     }
-    final regex = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$&*~]).{8,}$',
-    );
+    final regex =
+        RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$&*~]).{8,}$');
     if (!regex.hasMatch(password)) {
       passwordError =
           "Password must be 8+ chars, include uppercase, lowercase, number & special char";
       return false;
     }
     passwordError = null;
-
     if (checkConfirm && password != confirmPasswordController.text.trim()) {
       confirmPasswordError = "Passwords do not match";
       return false;
@@ -163,7 +153,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     return true;
   }
 
-  // ---------------- Login ----------------
+  // ---------- LOGIN ----------
   Future<void> login() async {
     if (!validateEmail() || !validatePassword()) {
       setState(() {});
@@ -179,38 +169,28 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
       if (result.isSignedIn) {
         widget.onLogin(emailController.text.trim());
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("Login successful!")));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Login successful!")));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Login incomplete. Please verify your account."),
-          ),
-        );
-        setState(() {
-          showConfirmCodeField = true;
-        });
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Login incomplete. Please verify your account.")));
+        setState(() => showConfirmCodeField = true);
       }
     } on AuthException catch (e) {
-      if (e.message.contains('User is not confirmed')) {
+      if (e.message.contains('not confirmed')) {
         setState(() => showConfirmCodeField = true);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("User not verified. Enter code to verify."),
-          ),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("User not verified. Enter code to verify.")));
       } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("Login failed: ${e.message}")));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Login failed: ${e.message}")));
       }
     } finally {
       setState(() => _isLoading = false);
     }
   }
 
-  // ---------------- Signup ----------------
+  // ---------- SIGNUP ----------
   Future<void> signUp() async {
     if (!validateUsername() ||
         !validateEmail() ||
@@ -221,70 +201,74 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     }
 
     setState(() => _isLoading = true);
-
     try {
       final result = await Amplify.Auth.signUp(
-        username: emailController.text.trim(),
+        username: usernameController.text.trim(),
         password: passwordController.text.trim(),
-        options: CognitoSignUpOptions(
-          userAttributes: {
-            CognitoUserAttributeKey.email: emailController.text.trim(),
-            CognitoUserAttributeKey.phoneNumber: phoneController.text.trim(),
-          },
-        ),
+        options: CognitoSignUpOptions(userAttributes: {
+          CognitoUserAttributeKey.email: emailController.text.trim(),
+          CognitoUserAttributeKey.phoneNumber: phoneController.text.trim(),
+        }),
       );
 
       if (result.isSignUpComplete) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Signup successful! Logging in...")),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Signup successful!")));
         await login();
       } else {
-        setState(() {
-          showConfirmCodeField = true;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Verification code sent to your email."),
-          ),
-        );
+        setState(() => showConfirmCodeField = true);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Verification code sent to your email.")));
       }
     } on AuthException catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Signup failed: ${e.message}")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Signup failed: ${e.message}")));
     } finally {
       setState(() => _isLoading = false);
     }
   }
 
-  // ---------------- Confirm Code ----------------
+  // ---------- CONFIRM CODE ----------
   Future<void> confirmCode() async {
-    setState(() => _isLoading = true);
-    try {
-      final res = await Amplify.Auth.confirmSignUp(
-        username: emailController.text.trim(),
-        confirmationCode: confirmCodeController.text.trim(),
-      );
-      if (res.isSignUpComplete) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Verification successful! Logging in..."),
-          ),
-        );
-        await login();
-        setState(() => showConfirmCodeField = false);
-      }
-    } on AuthException catch (e) {
+  setState(() => _isLoading = true);
+  try {
+    final res = await Amplify.Auth.confirmSignUp(
+      username: usernameController.text.trim(),
+      confirmationCode: confirmCodeController.text.trim(),
+    );
+
+    if (res.isSignUpComplete) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Verification failed: ${e.message}")),
+        const SnackBar(content: Text("Verification successful! Please login.")),
       );
-    } finally {
-      setState(() => _isLoading = false);
+
+      setState(() {
+        showConfirmCodeField = false;
+        isLogin = true; 
+      });
+    }
+  } on AuthException catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Verification failed: ${e.message}")),
+    );
+  } finally {
+    setState(() => _isLoading = false);
+  }
+}
+
+  Future<void> resendCode() async {
+    try {
+      await Amplify.Auth.resendSignUpCode(username: usernameController.text.trim());
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Verification code resent successfully.")));
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Resend failed: ${e.message}")));
     }
   }
 
-  Future<void> showForgotPasswordDialog() async {
+  // ---------- FORGOT PASSWORD ----------
+    Future<void> showForgotPasswordDialog() async {
     final emailCtrl = TextEditingController();
     final codeCtrl = TextEditingController();
     final newPassCtrl = TextEditingController();
@@ -444,96 +428,23 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       },
     );
   }
-
-  Future<void> forgotPassword(String email) async {
-    setState(() {
-      _isLoading = true;
-      showResetPasswordField = false;
-    });
-
-    try {
-      await Amplify.Auth.resetPassword(username: email);
-      setState(() {
-        showResetPasswordField = true;
-        emailController.text = email;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Reset code sent to your email.")),
-      );
-    } on AuthException catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Failed: ${e.message}")));
-    } finally {
-      setState(() => _isLoading = false);
-    }
-  }
-
-  Future<void> submitNewPassword() async {
-    final code = confirmCodeController.text.trim();
-    final newPass = newPasswordController.text.trim();
-
-    if (code.isEmpty || newPass.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Enter code and new password.")),
-      );
-      return;
-    }
-
-    setState(() => _isLoading = true);
-    try {
-      await Amplify.Auth.confirmResetPassword(
-        username: emailController.text.trim(),
-        newPassword: newPass,
-        confirmationCode: code,
-      );
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Password reset successful! Please login again."),
-        ),
-      );
-
-      setState(() {
-        showResetPasswordField = false;
-        confirmCodeController.clear();
-        newPasswordController.clear();
-        passwordController.clear();
-      });
-    } on AuthException catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Reset failed: ${e.message}")));
-    } finally {
-      setState(() => _isLoading = false);
-    }
-  }
-
   void continueAsGuest() => widget.onLogin("Guest");
 
-  // ---------------- UI ----------------
+  // ---------- UI ----------
   @override
   Widget build(BuildContext context) {
-    final lightTheme = ThemeData.from(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blue,
-        brightness: Brightness.light,
-      ),
-    );
-    final darkTheme = ThemeData.from(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.deepPurple,
-        brightness: Brightness.dark,
-      ),
-    );
-
-    final theme = _isDarkMode ? darkTheme : lightTheme;
+    final theme = _isDarkMode
+        ? ThemeData.from(
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: Colors.deepPurple, brightness: Brightness.dark))
+        : ThemeData.from(
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: Colors.blue, brightness: Brightness.light));
     final colorScheme = theme.colorScheme;
 
     return AnimatedTheme(
       data: theme,
       duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
       child: Scaffold(
         backgroundColor: theme.scaffoldBackgroundColor,
         body: Stack(
@@ -545,7 +456,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   position: _pageSlideAnimation,
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
                     width: 350,
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
@@ -563,159 +473,116 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ),
                     child: SingleChildScrollView(
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            isLogin ? "Welcome Back!" : "Create Your Account",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: colorScheme.primary,
-                            ),
-                          ),
+                          Text(isLogin ? "Welcome Back!" : "Create Your Account",
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: colorScheme.primary)),
                           const SizedBox(height: 25),
-
                           if (!isLogin)
                             _buildTextField(
-                              controller: usernameController,
-                              labelText: "Username",
-                              icon: Icons.person_outline,
-                              errorText: usernameError,
-                            ),
-
+                                controller: usernameController,
+                                labelText: "Username",
+                                icon: Icons.person_outline,
+                                errorText: usernameError),
                           const SizedBox(height: 15),
                           _buildTextField(
-                            controller: emailController,
-                            labelText: "Email",
-                            icon: Icons.email_outlined,
-                            errorText: emailError,
-                          ),
+                              controller: emailController,
+                              labelText: "Email",
+                              icon: Icons.email_outlined,
+                              errorText: emailError),
                           const SizedBox(height: 15),
-
                           if (!isLogin)
                             _buildTextField(
-                              controller: phoneController,
-                              labelText: "Phone (+91...)",
-                              icon: Icons.phone_android,
-                              errorText: phoneError,
-                            ),
-
+                                controller: phoneController,
+                                labelText: "Phone (+91...)",
+                                icon: Icons.phone_android,
+                                errorText: phoneError),
                           const SizedBox(height: 15),
                           _buildTextField(
-                            controller: passwordController,
-                            labelText: "Password",
-                            icon: Icons.lock_outline,
-                            obscureText: _isPasswordObscured,
-                            isPassword: true,
-                            onVisibilityToggle: () {
-                              setState(() {
-                                _isPasswordObscured = !_isPasswordObscured;
-                              });
-                            },
-                            errorText: passwordError,
-                          ),
-
+                              controller: passwordController,
+                              labelText: "Password",
+                              icon: Icons.lock_outline,
+                              obscureText: _isPasswordObscured,
+                              isPassword: true,
+                              onVisibilityToggle: () {
+                                setState(() =>
+                                    _isPasswordObscured = !_isPasswordObscured);
+                              },
+                              errorText: passwordError),
                           if (!isLogin)
                             SizeTransition(
                               sizeFactor: _formController,
                               axisAlignment: -1.0,
                               child: FadeTransition(
                                 opacity: _formController,
-                                child: Column(
-                                  children: [
-                                    const SizedBox(height: 15),
-                                    _buildTextField(
+                                child: Column(children: [
+                                  const SizedBox(height: 15),
+                                  _buildTextField(
                                       controller: confirmPasswordController,
                                       labelText: "Confirm Password",
                                       icon: Icons.lock_person_outlined,
                                       obscureText: _isConfirmPasswordObscured,
                                       isPassword: true,
                                       onVisibilityToggle: () {
-                                        setState(() {
-                                          _isConfirmPasswordObscured =
-                                              !_isConfirmPasswordObscured;
-                                        });
+                                        setState(() => _isConfirmPasswordObscured =
+                                            !_isConfirmPasswordObscured);
                                       },
-                                      errorText: confirmPasswordError,
-                                    ),
-                                  ],
-                                ),
+                                      errorText: confirmPasswordError),
+                                ]),
                               ),
                             ),
-
                           if (showConfirmCodeField) ...[
                             const SizedBox(height: 15),
                             _buildTextField(
-                              controller: confirmCodeController,
-                              labelText: "Enter Verification Code",
-                              icon: Icons.verified_outlined,
-                            ),
-                            const SizedBox(height: 15),
+                                controller: confirmCodeController,
+                                labelText: "Enter Verification Code",
+                                icon: Icons.verified_outlined),
+                            const SizedBox(height: 10),
                             ElevatedButton(
-                              onPressed: _isLoading ? null : confirmCode,
-                              child: const Text("Verify Account"),
-                            ),
-                          ],
-
-                          const SizedBox(height: 20),
-                          if (isLogin &&
-                              !showConfirmCodeField &&
-                              !showResetPasswordField)
+                                onPressed: _isLoading ? null : confirmCode,
+                                child: const Text("Verify Account")),
                             TextButton(
-                              onPressed: showForgotPasswordDialog,
-                              child: const Text("Forgot Password?"),
-                            ),
-
+                                onPressed: resendCode,
+                                child: const Text("Resend Code")),
+                          ],
+                          const SizedBox(height: 20),
+                          if (isLogin && !showConfirmCodeField)
+                            TextButton(
+                                onPressed: showForgotPasswordDialog,
+                                child: const Text("Forgot Password?")),
                           const SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: _isLoading
-                                ? null
-                                : (isLogin ? login : signUp),
+                            onPressed: _isLoading ? null : (isLogin ? login : signUp),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: colorScheme.primary,
-                              foregroundColor: colorScheme.onPrimary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              minimumSize: const Size(double.infinity, 50),
-                            ),
+                                backgroundColor: colorScheme.primary,
+                                foregroundColor: colorScheme.onPrimary,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                minimumSize: const Size(double.infinity, 50)),
                             child: _isLoading
                                 ? const SizedBox(
                                     height: 24,
                                     width: 24,
                                     child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 2.5,
-                                    ),
-                                  )
-                                : Text(
-                                    isLogin ? "Login" : "Sign Up",
+                                        color: Colors.white, strokeWidth: 2.5))
+                                : Text(isLogin ? "Login" : "Sign Up",
                                     style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                        fontSize: 16, fontWeight: FontWeight.bold)),
                           ),
-
                           TextButton(
-                            onPressed: toggleMode,
-                            child: Text(
-                              isLogin
-                                  ? "Don't have an account? Sign Up"
-                                  : "Already have an account? Log In",
-                              style: TextStyle(color: colorScheme.primary),
-                            ),
-                          ),
-
+                              onPressed: toggleMode,
+                              child: Text(
+                                  isLogin
+                                      ? "Don't have an account? Sign Up"
+                                      : "Already have an account? Log In",
+                                  style: TextStyle(color: colorScheme.primary))),
                           TextButton(
-                            onPressed: continueAsGuest,
-                            child: Text(
-                              "Continue as Guest",
-                              style: TextStyle(
-                                color: theme.textTheme.bodySmall?.color,
-                              ),
-                            ),
-                          ),
+                              onPressed: continueAsGuest,
+                              child: Text("Continue as Guest",
+                                  style: TextStyle(
+                                      color: theme.textTheme.bodySmall?.color))),
                         ],
                       ),
                     ),
@@ -727,23 +594,25 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               top: 30,
               right: 20,
               child: IconButton(
-                icon: Icon(
-                  _isDarkMode
-                      ? Icons.wb_sunny_rounded
-                      : Icons.nights_stay_rounded,
-                  color: _isDarkMode
-                      ? Colors.amberAccent
-                      : Colors.deepPurpleAccent,
-                  size: 28,
-                ),
-                onPressed: () => setState(() => _isDarkMode = !_isDarkMode),
-              ),
+                  icon: Icon(
+                      _isDarkMode
+                          ? Icons.wb_sunny_rounded
+                          : Icons.nights_stay_rounded,
+                      color: _isDarkMode
+                          ? Colors.amberAccent
+                          : Colors.deepPurpleAccent,
+                      size: 28),
+                  onPressed: () =>
+                      setState(() => _isDarkMode = !_isDarkMode)),
             ),
           ],
         ),
       ),
     );
   }
+
+
+
 
   Widget _buildTextField({
     required TextEditingController controller,

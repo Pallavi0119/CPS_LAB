@@ -1,5 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+
 import 'package:url_launcher/url_launcher.dart';
+
+import '../main.dart';
 
 class Sidebar extends StatelessWidget {
   final Function(String) onPageSelected;
@@ -203,19 +208,143 @@ class Sidebar extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomButton(String tooltip, IconData icon, String url) {
-    return IconButton(
-      onPressed: () async {
-        Uri uri = Uri.parse(url);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        } else {
-          print("Could not launch $url");
-        }
-      },
-      icon: Icon(icon, color: isDarkTheme ? Colors.white : Colors.black87),
-      tooltip: tooltip,
-      iconSize: 28,
-    );
+Widget _buildBottomButton(String tooltip, IconData icon, String url) {
+  return IconButton(
+    onPressed: () {
+      if (tooltip == "Download Config") {
+        _showDownloadDialog(url);
+      } else {
+        _launchURL(url);
+      }
+    },
+    icon: Icon(icon, color: isDarkTheme ? Colors.white : Colors.black87),
+    tooltip: tooltip,
+    iconSize: 28,
+  );
+}
+
+ Future<void> _launchURL(String url) async {
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri,
+          mode: LaunchMode.platformDefault,
+          webOnlyWindowName: '_self'); 
+    } else {
+      debugPrint("Could not launch $url");
+    }
   }
+void _showDownloadDialog(String url) {
+  showDialog(
+    context: navigatorKey.currentContext!,
+    barrierDismissible: true,
+    builder: (context) {
+      final dark = isDarkTheme;
+
+      return Stack(
+        children: [
+          // Blurred background
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+            child: Container(
+              color: Colors.black.withOpacity(0.3),
+            ),
+          ),
+          Center(
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              backgroundColor: dark
+                  ? Colors.grey[900]!.withOpacity(0.95)
+                  : Colors.white.withOpacity(0.95),
+              title: Row(
+                children: [
+                  Icon(Icons.sensors, color: dark ? Colors.yellow : Colors.deepPurple),
+                  const SizedBox(width: 10),
+                  Text(
+                    "CPS Serial Monitor App",
+                    style: TextStyle(
+                      color: dark ? Colors.yellow[200] : Colors.deepPurple,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              content: SingleChildScrollView(
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: dark ? Colors.white70 : Colors.black87,
+                      fontSize: 15,
+                      height: 1.5,
+                    ),
+                    children: [
+                      const TextSpan(
+                          text:
+                              "The Serial Monitor App aligns seamlessly with the mission of the "),
+                      TextSpan(
+                        text: "IIT Ropar Cyber-Physical Systems (CPS) Lab",
+                        style: TextStyle(
+                            color: dark ? Colors.yellow[300] : Colors.deepPurple,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const TextSpan(
+                          text:
+                              ", powered by NM-ICPS. This app serves as a practical tool for research, development, and deployment of CPS technologies, mirroring the lab's focus on fostering innovation.\n\n"),
+                      const TextSpan(
+                          text:
+                              "By enabling real-time monitoring and visualization of sensor data from diverse protocols "),
+                      TextSpan(
+                        text: "(I2C, RS485, SPI, Analog)",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: dark ? Colors.yellow[200] : Colors.deepPurple),
+                      ),
+                      const TextSpan(
+                          text:
+                              ", it provides hands-on experience for students, entrepreneurs, and researchers.\n\nThis empowers users to excel in the transformative field of CPS, supporting the lab's collaborative efforts with partner institutes to drive cutting-edge advancements."),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    Uri uri = Uri.parse(url);
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text("Downloading CPS Serial Monitor App..."),
+                          backgroundColor: dark ? Colors.yellow[700] : Colors.deepPurple,
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Failed to start download")),
+                      );
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: dark ? Colors.yellow[700] : Colors.deepPurple,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    child: Text(
+                      "Download Now",
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 }

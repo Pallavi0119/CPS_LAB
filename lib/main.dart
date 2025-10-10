@@ -28,6 +28,8 @@ void main() async {
 
 //  global key to reset the app on logout
 final GlobalKey<_CpsLabState> appKey = GlobalKey<_CpsLabState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 
 class CpsLabApp extends StatefulWidget {
   const CpsLabApp({super.key});
@@ -49,6 +51,8 @@ class _CpsLabState extends State<CpsLabApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       key: _appKey,
+      navigatorKey: navigatorKey,
+
       debugShowCheckedModeBanner: false,
       home: const CpsLab(),
     );

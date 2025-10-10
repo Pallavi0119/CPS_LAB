@@ -149,25 +149,27 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       confirmPasswordError = "Passwords do not match";
       return false;
     }
+
     confirmPasswordError = null;
     return true;
   }
 // ........................LOGIN..................
  Future<void> login() async {
-  if (!validateEmail() || !validatePassword()) {
+  if (!validateUsername() || !validatePassword()) {
     setState(() {});
     return;
   }
 
   setState(() => _isLoading = true);
   try {
-    final result = await Amplify.Auth.signIn(
-      username: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
+   final result = await Amplify.Auth.signIn(
+  username: usernameController.text.trim(),
+  password: passwordController.text.trim(),
+);
+
 
     if (result.isSignedIn) {
-      widget.onLogin(emailController.text.trim());
+      widget.onLogin(usernameController.text.trim());
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Login successful!")));
     } else {
@@ -500,13 +502,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   fontWeight: FontWeight.bold,
                                   color: colorScheme.primary)),
                           const SizedBox(height: 25),
-                          if (!isLogin)
+                         
                             _buildTextField(
                                 controller: usernameController,
                                 labelText: "Username",
                                 icon: Icons.person_outline,
                                 errorText: usernameError),
                           const SizedBox(height: 15),
+                           if (!isLogin)
                           _buildTextField(
                               controller: emailController,
                               labelText: "Email",

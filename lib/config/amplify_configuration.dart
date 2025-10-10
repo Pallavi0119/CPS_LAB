@@ -1,12 +1,10 @@
-const amplifyconfig = ''' {
+const amplifyconfig = '''{
   "UserAgent": "aws-amplify-cli/2.0",
   "Version": "1.0",
   "auth": {
     "plugins": {
       "awsCognitoAuthPlugin": {
-        "IdentityManager": {
-          "Default": {}
-        },
+        "IdentityManager": {"Default": {}},
         "CognitoUserPool": {
           "Default": {
             "PoolId": "us-east-1_NLhmZBt0q",
@@ -17,12 +15,10 @@ const amplifyconfig = ''' {
         "Auth": {
           "Default": {
             "authenticationFlowType": "USER_SRP_AUTH",
-            "signupAttributes": [
-              "email" , "name"
-             ],
+            "signupAttributes": ["email", "name"],
             "passwordProtectionSettings": {
-                "passwordPolicyMinLength": 8,
-                "passwordPolicyCharacters": []
+              "passwordPolicyMinLength": 8,
+              "passwordPolicyCharacters": []
             }
           }
         }

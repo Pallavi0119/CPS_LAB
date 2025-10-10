@@ -31203,7 +31203,7 @@ s=6
 return A.n(k,$async$apA)
 case 6:m=$.eC
 s=7
-return A.n((m==null?$.eC=A.pp():m).EA(' {\n  "UserAgent": "aws-amplify-cli/2.0",\n  "Version": "1.0",\n  "auth": {\n    "plugins": {\n      "awsCognitoAuthPlugin": {\n        "IdentityManager": {\n          "Default": {}\n        },\n        "CognitoUserPool": {\n          "Default": {\n            "PoolId": "us-east-1_NLhmZBt0q",\n            "AppClientId": "7ggmg2h7is565730c43am4l15s",\n            "Region": "us-east-1"\n          }\n        },\n        "Auth": {\n          "Default": {\n            "authenticationFlowType": "USER_SRP_AUTH",\n            "signupAttributes": [\n              "email" , "name"\n             ],\n            "passwordProtectionSettings": {\n                "passwordPolicyMinLength": 8,\n                "passwordPolicyCharacters": []\n            }\n          }\n        }\n      }\n    }\n  }\n}'),$async$apA)
+return A.n((m==null?$.eC=A.pp():m).EA('{\n  "UserAgent": "aws-amplify-cli/2.0",\n  "Version": "1.0",\n  "auth": {\n    "plugins": {\n      "awsCognitoAuthPlugin": {\n        "IdentityManager": {"Default": {}},\n        "CognitoUserPool": {\n          "Default": {\n            "PoolId": "us-east-1_NLhmZBt0q",\n            "AppClientId": "7ggmg2h7is565730c43am4l15s",\n            "Region": "us-east-1"\n          }\n        },\n        "Auth": {\n          "Default": {\n            "authenticationFlowType": "USER_SRP_AUTH",\n            "signupAttributes": ["email", "name"],\n            "passwordProtectionSettings": {\n              "passwordPolicyMinLength": 8,\n              "passwordPolicyCharacters": []\n            }\n          }\n        }\n      }\n    }\n  }\n}'),$async$apA)
 case 7:q=1
 s=5
 break
@@ -112950,24 +112950,24 @@ q.ao$=s
 q.ad$=0
 r.afz()},
 aHU(){this.an(new A.b_4(this))},
-aIj(){var s=this,r=B.c.dh(s.ax.a.a)
+a8E(){var s=this,r=B.c.dh(s.ax.a.a)
 if(r.length===0){s.dx="Username cannot be empty"
 return!1}if(B.c.u(r,"@")){s.dx="Username cannot be an email format"
 return!1}s.dx=null
 return!0},
-a8D(){var s,r=this,q=B.c.dh(r.ay.a.a)
+aIh(){var s,r=this,q=B.c.dh(r.ay.a.a)
 if(q.length===0){r.dy="Email cannot be empty"
 return!1}s=A.b7("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",!0,!1,!1)
 if(!s.b.test(q)){r.dy="Invalid email format"
 return!1}r.dy=null
 return!0},
-aIi(){var s,r=this,q=B.c.dh(r.ch.a.a)
+aIj(){var s,r=this,q=B.c.dh(r.ch.a.a)
 if(q.length===0){r.fr="Phone number cannot be empty"
 return!1}s=A.b7("^\\+?[0-9]{10,15}$",!0,!1,!1)
 if(!s.b.test(q)){r.fr="Enter valid phone number (e.g. +919876543210)"
 return!1}r.fr=null
 return!0},
-a8E(a){var s,r=this,q=B.c.dh(r.CW.a.a)
+a8D(a){var s,r=this,q=B.c.dh(r.CW.a.a)
 if(q.length===0){r.fx="Password cannot be empty"
 return!1}s=A.b7("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#\\$&*~]).{8,}$",!0,!1,!1)
 if(!s.b.test(q)){r.fx="Password must be 8+ chars, include uppercase, lowercase, number & special char"
@@ -112975,16 +112975,16 @@ return!1}r.fx=null
 if(a&&q!==B.c.dh(r.cx.a.a)){r.fy="Passwords do not match"
 return!1}r.fy=null
 return!0},
-aIh(){return this.a8E(!1)},
+aIi(){return this.a8D(!1)},
 G5(){var s=0,r=A.B(t.H),q,p=2,o=[],n=[],m=this,l,k,j,i,h,g,f
 var $async$G5=A.x(function(a,b){if(a===1){o.push(b)
-s=p}while(true)switch(s){case 0:if(!m.a8D()||!m.aIh()){m.an(new A.aZN())
+s=p}while(true)switch(s){case 0:if(!m.a8E()||!m.aIi()){m.an(new A.aZN())
 s=1
 break}m.an(new A.aZO(m))
 p=4
 j=$.eC
 if(j==null)j=$.eC=A.pp()
-i=m.ay
+i=m.ax
 h=B.c.dh(i.a.a)
 s=7
 return A.n(j.a.ab0(B.c.dh(m.CW.a.a),h),$async$G5)
@@ -113017,7 +113017,7 @@ case 2:return A.y(o.at(-1),r)}})
 return A.A($async$G5,r)},
 By(){var s=0,r=A.B(t.H),q,p=2,o=[],n=[],m=this,l,k,j,i,h,g,f
 var $async$By=A.x(function(a,b){if(a===1){o.push(b)
-s=p}while(true)switch(s){case 0:if(!m.aIj()||!m.a8D()||!m.aIi()||!m.a8E(!0)){m.an(new A.aZZ())
+s=p}while(true)switch(s){case 0:if(!m.a8E()||!m.aIh()||!m.aIj()||!m.a8D(!0)){m.an(new A.aZZ())
 s=1
 break}m.an(new A.b__(m))
 p=4
@@ -113127,10 +113127,8 @@ q=A.a([new A.eD(5,B.cb,j.w?A.bg(B.d.aP(127.5),B.n.K()>>>16&255,B.n.K()>>>8&255,B
 p=j.d?"Welcome Back!":"Create Your Account"
 o=g.b
 n=t.p
-p=A.a([A.ck(p,i,i,i,A.cA(i,i,o,i,i,i,i,i,i,i,i,24,i,i,B.a1,i,i,!0,i,i,i,i,i,i,i,i),i,i),B.a70],n)
-if(!j.d)p.push(j.J5(j.ax,j.dx,B.SJ,"Username"))
-p.push(B.hm)
-p.push(j.J5(j.ay,j.dy,B.ty,"Email"))
+p=A.a([A.ck(p,i,i,i,A.cA(i,i,o,i,i,i,i,i,i,i,i,24,i,i,B.a1,i,i,!0,i,i,i,i,i,i,i,i),i,i),B.a70,j.J5(j.ax,j.dx,B.SJ,"Username"),B.hm],n)
+if(!j.d)p.push(j.J5(j.ay,j.dy,B.ty,"Email"))
 p.push(B.hm)
 if(!j.d)p.push(j.J5(j.ch,j.fr,B.tx,"Phone (+91...)"))
 p.push(B.hm)

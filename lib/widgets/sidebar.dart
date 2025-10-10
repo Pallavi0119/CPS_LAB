@@ -133,7 +133,7 @@ class Sidebar extends StatelessWidget {
               _buildBottomButton(
                 "Download Config",
                 Icons.download,
-                "https://example.com/config.zip",
+                "https://iot-serial-communication-app.s3.us-east-1.amazonaws.com/IOT+Serial+Monitor+Setup+1.0.0.exe",
               ),
 
               _buildBottomButton(

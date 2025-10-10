@@ -152,81 +152,101 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     confirmPasswordError = null;
     return true;
   }
-
-  // ---------- LOGIN ----------
-  Future<void> login() async {
-    if (!validateEmail() || !validatePassword()) {
-      setState(() {});
-      return;
-    }
-
-    setState(() => _isLoading = true);
-    try {
-      final result = await Amplify.Auth.signIn(
-        username: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-
-      if (result.isSignedIn) {
-        widget.onLogin(emailController.text.trim());
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Login successful!")));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Login incomplete. Please verify your account.")));
-        setState(() => showConfirmCodeField = true);
-      }
-    } on AuthException catch (e) {
-      if (e.message.contains('not confirmed')) {
-        setState(() => showConfirmCodeField = true);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("User not verified. Enter code to verify.")));
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Login failed: ${e.message}")));
-      }
-    } finally {
-      setState(() => _isLoading = false);
-    }
+// ........................LOGIN..................
+ Future<void> login() async {
+  if (!validateEmail() || !validatePassword()) {
+    setState(() {});
+    return;
   }
+
+  setState(() => _isLoading = true);
+  try {
+    final result = await Amplify.Auth.signIn(
+      username: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+
+    if (result.isSignedIn) {
+      widget.onLogin(emailController.text.trim());
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Login successful!")));
+    } else {
+      setState(() => showConfirmCodeField = true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please verify your account first.")),
+      );
+    }
+  } on AuthException catch (e) {
+    if (e.message.contains('not confirmed')) {
+      setState(() => showConfirmCodeField = true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("User not verified. Please enter code to verify.")),
+      );
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Login failed: ${e.message}")));
+    }
+  } finally {
+    setState(() => _isLoading = false);
+  }
+}
+
 
   // ---------- SIGNUP ----------
-  Future<void> signUp() async {
-    if (!validateUsername() ||
-        !validateEmail() ||
-        !validatePhone() ||
-        !validatePassword(checkConfirm: true)) {
-      setState(() {});
-      return;
-    }
+ Future<void> signUp() async {
+  if (!validateUsername() ||
+      !validateEmail() ||
+      !validatePhone() ||
+      !validatePassword(checkConfirm: true)) {
+    setState(() {});
+    return;
+  }
 
-    setState(() => _isLoading = true);
-    try {
-      final result = await Amplify.Auth.signUp(
-        username: usernameController.text.trim(),
-        password: passwordController.text.trim(),
-        options: CognitoSignUpOptions(userAttributes: {
-          CognitoUserAttributeKey.email: emailController.text.trim(),
-          CognitoUserAttributeKey.phoneNumber: phoneController.text.trim(),
-        }),
+  setState(() => _isLoading = true);
+  try {
+    final result = await Amplify.Auth.signUp(
+      username: usernameController.text.trim(), 
+      password: passwordController.text.trim(),
+      options: CognitoSignUpOptions(userAttributes: {
+        CognitoUserAttributeKey.email: emailController.text.trim(),
+        CognitoUserAttributeKey.phoneNumber: phoneController.text.trim(),
+        CognitoUserAttributeKey.preferredUsername: usernameController.text.trim(),
+      }),
+    );
+
+    if (result.isSignUpComplete) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Signup successful! Please login.")),
       );
-
-      if (result.isSignUpComplete) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Signup successful!")));
-        await login();
-      } else {
-        setState(() => showConfirmCodeField = true);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Verification code sent to your email.")));
-      }
-    } on AuthException catch (e) {
+      setState(() {
+        isLogin = true;
+        showConfirmCodeField = false;
+      });
+    } else {
+      setState(() => showConfirmCodeField = true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Verification code sent to your email.")),
+      );
+    }
+  } on AuthException catch (e) {
+  
+    if (e.message.contains("already exists")) {
+      setState(() => showConfirmCodeField = true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Account exists but not verified. Please enter code or resend verification email.",
+          ),
+        ),
+      );
+    } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Signup failed: ${e.message}")));
-    } finally {
-      setState(() => _isLoading = false);
     }
+  } finally {
+    setState(() => _isLoading = false);
   }
+}
 
   // ---------- CONFIRM CODE ----------
   Future<void> confirmCode() async {
